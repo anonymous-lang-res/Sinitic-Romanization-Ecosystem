@@ -1,0 +1,1592 @@
+[
+  {
+    "ucs2": "34C1",
+    "part": "㓁*",
+    "description": "禿頭穴",
+    "jyutping": "tuk4Aa|5 teu1B|21 jyut4B|2"
+  },
+  {
+    "ucs2": "353E",
+    "part": "㔾*",
+    "description": "鈎巳旁",
+    "jyutping": "ngeu1A|55 zi3B|22 pong1B|21"
+  },
+  {
+    "ucs2": "38FA",
+    "part": "㣺*",
+    "description": "增點豎心邊",
+    "jyutping": "zeng1A|55 dim2A|35 syu3B|22 sem1A|55 bin1A|55"
+  },
+  {
+    "ucs2": "4491",
+    "part": "䒑*",
+    "description": "並字頭",
+    "jyutping": "bing3B|22 zi3B|22 teu1B|21"
+  },
+  {
+    "ucs2": "4E00",
+    "part": "一",
+    "description": "橫",
+    "jyutping": "wang1B|21"
+  },
+  {
+    "ucs2": "4E06",
+    "part": "丆*",
+    "description": "一橫一撇",
+    "jyutping": "jet4Aa|5 wang1B|21 jet4Aa|5 pit4Ab|3"
+  },
+  {
+    "ucs2": "4E28",
+    "part": "丨",
+    "description": "豎",
+    "jyutping": "syu3B|22"
+  },
+  {
+    "ucs2": "4E2C",
+    "part": "丬*",
+    "description": "簡爿邊",
+    "jyutping": "gan2A|35 ban3B|22 bin1A|55"
+  },
+  {
+    "ucs2": "4E36",
+    "part": "丶",
+    "description": "點",
+    "jyutping": "dim2A|35"
+  },
+  {
+    "ucs2": "4E37",
+    "part": "丷*",
+    "description": "八字頭",
+    "jyutping": "bat4Ab|3 zi3B|22 teu1B|21"
+  },
+  {
+    "ucs2": "4E3F",
+    "part": "丿",
+    "description": "撇",
+    "jyutping": "pit4Ab|3"
+  },
+  {
+    "ucs2": "4E44",
+    "part": "乄*",
+    "description": "鈎尾交叉",
+    "jyutping": "ngeu1A|55 meai2B|13 gau1A|55 ca1A|55"
+  },
+  {
+    "ucs2": "4E4A",
+    "part": "乊*",
+    "description": "乎字頭",
+    "jyutping": "fu1B|21 zi3B|22 teu1B|21"
+  },
+  {
+    "ucs2": "4E59",
+    "part": "乙",
+    "description": "乙",
+    "jyutping": "jyut4Ab|3"
+  },
+  {
+    "ucs2": "4E5B",
+    "part": "乛*",
+    "description": "橫鈎",
+    "jyutping": "wang1B|21 ngeu1A|55"
+  },
+  {
+    "ucs2": "4E85",
+    "part": "亅",
+    "description": "鈎",
+    "jyutping": "ngeu1A|55"
+  },
+  {
+    "ucs2": "4E8C",
+    "part": "二",
+    "description": "二",
+    "jyutping": "ji3B|22"
+  },
+  {
+    "ucs2": "4EA0",
+    "part": "亠",
+    "description": "一點一橫",
+    "jyutping": "jet4Aa|5 dim2A|35 jet4Aa|5 wang1B|21"
+  },
+  {
+    "ucs2": "4EBA",
+    "part": "人",
+    "description": "人",
+    "jyutping": "jen1B|21"
+  },
+  {
+    "ucs2": "4EBB",
+    "part": "亻",
+    "description": "企人邊",
+    "jyutping": "keai2B|13 jen1B|21 bin1A|55"
+  },
+  {
+    "ucs2": "513F",
+    "part": "儿",
+    "description": "簡化兒",
+    "jyutping": "gan2A|35 fa3A|33 ji1B|21"
+  },
+  {
+    "ucs2": "5140",
+    "part": "兀",
+    "description": "兀",
+    "jyutping": "nget4B|2"
+  },
+  {
+    "ucs2": "5165",
+    "part": "入",
+    "description": "入",
+    "jyutping": "jep4B|2"
+  },
+  {
+    "ucs2": "516B",
+    "part": "八",
+    "description": "八",
+    "jyutping": "bat4Ab|3"
+  },
+  {
+    "ucs2": "5182",
+    "part": "冂",
+    "description": "同字框",
+    "jyutping": "tung1B|21 zi3B|22 kwang1A|55"
+  },
+  {
+    "ucs2": "5196",
+    "part": "冖",
+    "description": "冖",
+    "jyutping": "mik4B|2"
+  },
+  {
+    "ucs2": "51AB",
+    "part": "冫",
+    "description": "兩點水",
+    "jyutping": "leong2B|13 dim2A|35 soei2A|35"
+  },
+  {
+    "ucs2": "51E0",
+    "part": "几",
+    "description": "几",
+    "jyutping": "geai1A|55"
+  },
+  {
+    "ucs2": "51F5",
+    "part": "凵",
+    "description": "凶字框",
+    "jyutping": "hung1A|55 zi3B|22 kwang1A|55"
+  },
+  {
+    "ucs2": "5200",
+    "part": "刀",
+    "description": "刀",
+    "jyutping": "dou1A|55"
+  },
+  {
+    "ucs2": "5202",
+    "part": "刂",
+    "description": "利刀邊",
+    "jyutping": "leai3B|22 dou1A|55 bin1A|55"
+  },
+  {
+    "ucs2": "529B",
+    "part": "力",
+    "description": "力",
+    "jyutping": "lik4B|2"
+  },
+  {
+    "ucs2": "52F9",
+    "part": "勹",
+    "description": "包字頭",
+    "jyutping": "bau1A|55 zi3B|22 teu1B|21"
+  },
+  {
+    "ucs2": "5315",
+    "part": "匕",
+    "description": "匕",
+    "jyutping": "beai3A|33"
+  },
+  {
+    "ucs2": "531A",
+    "part": "匚",
+    "description": "匡字框",
+    "jyutping": "hong1A|55 zi3B|22 kwang1A|55"
+  },
+  {
+    "ucs2": "5338",
+    "part": "匸",
+    "description": "匸",
+    "jyutping": "hei2B|13"
+  },
+  {
+    "ucs2": "5341",
+    "part": "十",
+    "description": "十",
+    "jyutping": "sep4B|2"
+  },
+  {
+    "ucs2": "535C",
+    "part": "卜",
+    "description": "卜",
+    "jyutping": "buk4Aa|5"
+  },
+  {
+    "ucs2": "5369",
+    "part": "卩",
+    "description": "單耳刀",
+    "jyutping": "dan1A|55 ji2B|13 dou1A|55"
+  },
+  {
+    "ucs2": "5382",
+    "part": "厂",
+    "description": "厂",
+    "jyutping": "hon3A|33"
+  },
+  {
+    "ucs2": "53B6",
+    "part": "厶",
+    "description": "厶",
+    "jyutping": "si1A|55"
+  },
+  {
+    "ucs2": "53C8",
+    "part": "又",
+    "description": "又",
+    "jyutping": "jeu3B|22"
+  },
+  {
+    "ucs2": "53E3",
+    "part": "口",
+    "description": "口",
+    "jyutping": "heu2A|35"
+  },
+  {
+    "ucs2": "56D7",
+    "part": "囗",
+    "description": "囗",
+    "jyutping": "wei1B|21"
+  },
+  {
+    "ucs2": "571F",
+    "part": "土",
+    "description": "土",
+    "jyutping": "tou2A|35"
+  },
+  {
+    "ucs2": "58EB",
+    "part": "士",
+    "description": "士",
+    "jyutping": "si3B|22"
+  },
+  {
+    "ucs2": "5902",
+    "part": "夂",
+    "description": "撇旁又",
+    "jyutping": "pit4Ab|3 pong1B|21 jeu3B|22"
+  },
+  {
+    "ucs2": "590A",
+    "part": "夊",
+    "description": "撇削又",
+    "jyutping": "pit4Ab|3 seok4Ab|3 jeu3B|22"
+  },
+  {
+    "ucs2": "5915",
+    "part": "夕",
+    "description": "夕",
+    "jyutping": "zik4B|2"
+  },
+  {
+    "ucs2": "5927",
+    "part": "大",
+    "description": "大",
+    "jyutping": "dai3B|22"
+  },
+  {
+    "ucs2": "5973",
+    "part": "女",
+    "description": "女",
+    "jyutping": "noei2B|13"
+  },
+  {
+    "ucs2": "5B50",
+    "part": "子",
+    "description": "子",
+    "jyutping": "zi2A|35"
+  },
+  {
+    "ucs2": "5B80",
+    "part": "宀",
+    "description": "冧篷頭",
+    "jyutping": "lem1A|55 pung1B|21 teu2A|35"
+  },
+  {
+    "ucs2": "5BF8",
+    "part": "寸",
+    "description": "寸",
+    "jyutping": "cyun3A|33"
+  },
+  {
+    "ucs2": "5C0F",
+    "part": "小",
+    "description": "小",
+    "jyutping": "siu2A|35"
+  },
+  {
+    "ucs2": "5C22",
+    "part": "尢",
+    "description": "尤字旁",
+    "jyutping": "jeu1B|21 zi3B|22 pong1B|21"
+  },
+  {
+    "ucs2": "5C23",
+    "part": "尣",
+    "description": "八儿",
+    "jyutping": "bat4Ab|3 jen1B|21"
+  },
+  {
+    "ucs2": "5C38",
+    "part": "尸",
+    "description": "尸",
+    "jyutping": "si1A|55"
+  },
+  {
+    "ucs2": "5C6E",
+    "part": "屮",
+    "description": "半邊艸",
+    "jyutping": "bun3A|33 bin1A|55 cou2A|35"
+  },
+  {
+    "ucs2": "5C71",
+    "part": "山",
+    "description": "山",
+    "jyutping": "san1A|55"
+  },
+  {
+    "ucs2": "5DDB",
+    "part": "巛",
+    "description": "巛",
+    "jyutping": "cyun1A|55"
+  },
+  {
+    "ucs2": "5DE5",
+    "part": "工",
+    "description": "工",
+    "jyutping": "gung1A|55"
+  },
+  {
+    "ucs2": "5DF1",
+    "part": "己",
+    "description": "己",
+    "jyutping": "geai2A|35"
+  },
+  {
+    "ucs2": "5DFE",
+    "part": "巾",
+    "description": "巾",
+    "jyutping": "gen1A|55"
+  },
+  {
+    "ucs2": "5E72",
+    "part": "干",
+    "description": "干",
+    "jyutping": "gon1A|55"
+  },
+  {
+    "ucs2": "5E7A",
+    "part": "幺",
+    "description": "幺",
+    "jyutping": "jiu1A|55"
+  },
+  {
+    "ucs2": "5E7F",
+    "part": "广",
+    "description": "廣字頭",
+    "jyutping": "gwong2A|35 zi3B|22 teu1B|21"
+  },
+  {
+    "ucs2": "5EF4",
+    "part": "廴",
+    "description": "建字旁",
+    "jyutping": "gin3A|33 zi3B|22 pong1B|21"
+  },
+  {
+    "ucs2": "5EFE",
+    "part": "廾",
+    "description": "弄字底",
+    "jyutping": "lung3B|22 zi3B|22 dei2A|35"
+  },
+  {
+    "ucs2": "5F0B",
+    "part": "弋",
+    "description": "弋",
+    "jyutping": "jik4B|2"
+  },
+  {
+    "ucs2": "5F13",
+    "part": "弓",
+    "description": "弓",
+    "jyutping": "gung1A|55"
+  },
+  {
+    "ucs2": "5F50",
+    "part": "彐",
+    "description": "簡化錄字頭",
+    "jyutping": "gan2A|35 fa3A|33 luk4B|2 zi3B|22 teu1B|21"
+  },
+  {
+    "ucs2": "5F51",
+    "part": "彑",
+    "description": "缺頭互",
+    "jyutping": "kyut4Ab|3 teu1B|21 wu3B|22"
+  },
+  {
+    "ucs2": "5F61",
+    "part": "彡",
+    "description": "三撇",
+    "jyutping": "sam1A|55 pit4Ab|3"
+  },
+  {
+    "ucs2": "5F73",
+    "part": "彳",
+    "description": "雙企人",
+    "jyutping": "seong1A|55 keai2B|13 jen2A|35"
+  },
+  {
+    "ucs2": "5FC3",
+    "part": "心",
+    "description": "心",
+    "jyutping": "sem1A|55"
+  },
+  {
+    "ucs2": "5FC4",
+    "part": "忄",
+    "description": "豎心邊",
+    "jyutping": "syu3B|22 sem1A|55 bin1A|55"
+  },
+  {
+    "ucs2": "6208",
+    "part": "戈",
+    "description": "戈",
+    "jyutping": "gwo1A|55"
+  },
+  {
+    "ucs2": "6236",
+    "part": "戶",
+    "description": "戶",
+    "jyutping": "wu3B|22"
+  },
+  {
+    "ucs2": "624B",
+    "part": "手",
+    "description": "手",
+    "jyutping": "seu2A|35"
+  },
+  {
+    "ucs2": "624C",
+    "part": "扌",
+    "description": "剔手邊",
+    "jyutping": "tik4Aa|5 seu2A|35 bin1A|55"
+  },
+  {
+    "ucs2": "652F",
+    "part": "支",
+    "description": "支",
+    "jyutping": "zi1A|55"
+  },
+  {
+    "ucs2": "6534",
+    "part": "攴",
+    "description": "攴",
+    "jyutping": "pok4Ab|3"
+  },
+  {
+    "ucs2": "6535",
+    "part": "攵",
+    "description": "反文邊",
+    "jyutping": "fan2A|35 men1B|21 bin1A|55"
+  },
+  {
+    "ucs2": "6587",
+    "part": "文",
+    "description": "文",
+    "jyutping": "men1B|21"
+  },
+  {
+    "ucs2": "6597",
+    "part": "斗",
+    "description": "斗",
+    "jyutping": "deu2A|35"
+  },
+  {
+    "ucs2": "65A4",
+    "part": "斤",
+    "description": "斤",
+    "jyutping": "gen1A|55"
+  },
+  {
+    "ucs2": "65B9",
+    "part": "方",
+    "description": "方",
+    "jyutping": "fong1A|55"
+  },
+  {
+    "ucs2": "65E0",
+    "part": "无",
+    "description": "无",
+    "jyutping": "mou1B|21"
+  },
+  {
+    "ucs2": "65E5",
+    "part": "日",
+    "description": "日",
+    "jyutping": "jet4B|2"
+  },
+  {
+    "ucs2": "66F0",
+    "part": "曰",
+    "description": "曰",
+    "jyutping": "jeok4B|2"
+  },
+  {
+    "ucs2": "6708",
+    "part": "月",
+    "description": "月",
+    "jyutping": "jyut4B|2"
+  },
+  {
+    "ucs2": "6728",
+    "part": "木",
+    "description": "木",
+    "jyutping": "muk4B|2"
+  },
+  {
+    "ucs2": "6B20",
+    "part": "欠",
+    "description": "欠",
+    "jyutping": "him3A|33"
+  },
+  {
+    "ucs2": "6B62",
+    "part": "止",
+    "description": "止",
+    "jyutping": "zi2A|35"
+  },
+  {
+    "ucs2": "6B79",
+    "part": "歹",
+    "description": "歹",
+    "jyutping": "dai2A|35"
+  },
+  {
+    "ucs2": "6B7A",
+    "part": "歺",
+    "description": "歺",
+    "jyutping": "at4Ab|3"
+  },
+  {
+    "ucs2": "6BB3",
+    "part": "殳",
+    "description": "殳",
+    "jyutping": "syu1B|21"
+  },
+  {
+    "ucs2": "6BCB",
+    "part": "毋",
+    "description": "毋",
+    "jyutping": "mou1B|21"
+  },
+  {
+    "ucs2": "6BD4",
+    "part": "比",
+    "description": "比",
+    "jyutping": "beai2A|35"
+  },
+  {
+    "ucs2": "6BDB",
+    "part": "毛",
+    "description": "毛",
+    "jyutping": "mou1B|21"
+  },
+  {
+    "ucs2": "6C0F",
+    "part": "氏",
+    "description": "氏",
+    "jyutping": "si3B|22"
+  },
+  {
+    "ucs2": "6C14",
+    "part": "气",
+    "description": "气",
+    "jyutping": "heai3A|33"
+  },
+  {
+    "ucs2": "6C34",
+    "part": "水",
+    "description": "水",
+    "jyutping": "soei2A|35"
+  },
+  {
+    "ucs2": "6C35",
+    "part": "氵",
+    "description": "三點水",
+    "jyutping": "sam1A|55 dim2A|35 soei2A|35"
+  },
+  {
+    "ucs2": "6C3A",
+    "part": "氺",
+    "description": "泰字底",
+    "jyutping": "tai3A|33 zi3B|22 dei2A|35"
+  },
+  {
+    "ucs2": "706B",
+    "part": "火",
+    "description": "火",
+    "jyutping": "fo2A|35"
+  },
+  {
+    "ucs2": "706C",
+    "part": "灬",
+    "description": "四點",
+    "jyutping": "seai3A|33 dim2A|35"
+  },
+  {
+    "ucs2": "722A",
+    "part": "爪",
+    "description": "爪",
+    "jyutping": "zau2A|35"
+  },
+  {
+    "ucs2": "722B",
+    "part": "爫",
+    "description": "爪字頭",
+    "jyutping": "zau2A|35 zi3B|22 teu1B|21"
+  },
+  {
+    "ucs2": "7236",
+    "part": "父",
+    "description": "父",
+    "jyutping": "fu3B|22"
+  },
+  {
+    "ucs2": "723B",
+    "part": "爻",
+    "description": "爻",
+    "jyutping": "ngau1B|21"
+  },
+  {
+    "ucs2": "723F",
+    "part": "爿",
+    "description": "爿",
+    "jyutping": "ban3B|22"
+  },
+  {
+    "ucs2": "7247",
+    "part": "片",
+    "description": "片",
+    "jyutping": "pin3A|33"
+  },
+  {
+    "ucs2": "7259",
+    "part": "牙",
+    "description": "牙",
+    "jyutping": "nga1B|21"
+  },
+  {
+    "ucs2": "725B",
+    "part": "牛",
+    "description": "牛",
+    "jyutping": "ngeu1B|21"
+  },
+  {
+    "ucs2": "725C",
+    "part": "牜",
+    "description": "左旁牛",
+    "jyutping": "zo2A|35 pong1B|21 ngeu1B|21"
+  },
+  {
+    "ucs2": "72AC",
+    "part": "犬",
+    "description": "犬",
+    "jyutping": "hyun2A|35"
+  },
+  {
+    "ucs2": "72AD",
+    "part": "犭",
+    "description": "狗爪邊",
+    "jyutping": "geu2A|35 zau2A|35 bin1A|55"
+  },
+  {
+    "ucs2": "7384",
+    "part": "玄",
+    "description": "玄",
+    "jyutping": "jyun1B|21"
+  },
+  {
+    "ucs2": "7389",
+    "part": "玉",
+    "description": "玉",
+    "jyutping": "juk4B|2"
+  },
+  {
+    "ucs2": "74DC",
+    "part": "瓜",
+    "description": "瓜",
+    "jyutping": "gwa1A|55"
+  },
+  {
+    "ucs2": "74E6",
+    "part": "瓦",
+    "description": "瓦",
+    "jyutping": "nga2B|13"
+  },
+  {
+    "ucs2": "7518",
+    "part": "甘",
+    "description": "甘",
+    "jyutping": "gem1A|55"
+  },
+  {
+    "ucs2": "751F",
+    "part": "生",
+    "description": "生",
+    "jyutping": "seng1A|55"
+  },
+  {
+    "ucs2": "7528",
+    "part": "用",
+    "description": "用",
+    "jyutping": "jung3B|22"
+  },
+  {
+    "ucs2": "7530",
+    "part": "田",
+    "description": "田",
+    "jyutping": "tin1B|21"
+  },
+  {
+    "ucs2": "758B",
+    "part": "疋",
+    "description": "疋",
+    "jyutping": "pet4Aa|5"
+  },
+  {
+    "ucs2": "7592",
+    "part": "疒",
+    "description": "病字頭",
+    "jyutping": "beang3B|22 zi3B|22 teu1B|21"
+  },
+  {
+    "ucs2": "7676",
+    "part": "癶",
+    "description": "登字頭",
+    "jyutping": "deng1A|55 zi3B|22 teu1B|21"
+  },
+  {
+    "ucs2": "767D",
+    "part": "白",
+    "description": "白",
+    "jyutping": "bak4B|2"
+  },
+  {
+    "ucs2": "76AE",
+    "part": "皮",
+    "description": "皮",
+    "jyutping": "peai1B|21"
+  },
+  {
+    "ucs2": "76BF",
+    "part": "皿",
+    "description": "皿",
+    "jyutping": "ming2B|13"
+  },
+  {
+    "ucs2": "76EE",
+    "part": "目",
+    "description": "目",
+    "jyutping": "muk4B|2"
+  },
+  {
+    "ucs2": "77DB",
+    "part": "矛",
+    "description": "矛",
+    "jyutping": "mau1B|21"
+  },
+  {
+    "ucs2": "77E2",
+    "part": "矢",
+    "description": "矢",
+    "jyutping": "ci2A|35"
+  },
+  {
+    "ucs2": "77F3",
+    "part": "石",
+    "description": "石",
+    "jyutping": "seak4B|2"
+  },
+  {
+    "ucs2": "793A",
+    "part": "示",
+    "description": "示",
+    "jyutping": "si3B|22"
+  },
+  {
+    "ucs2": "793B",
+    "part": "礻*",
+    "description": "示字邊",
+    "jyutping": "si3B|22 zi3B|22 bin1A|55"
+  },
+  {
+    "ucs2": "79B8",
+    "part": "禸",
+    "description": "萬字底",
+    "jyutping": "man3B|22 zi3B|22 dei2A|35"
+  },
+  {
+    "ucs2": "79BE",
+    "part": "禾",
+    "description": "禾",
+    "jyutping": "wo1B|21"
+  },
+  {
+    "ucs2": "7A74",
+    "part": "穴",
+    "description": "穴",
+    "jyutping": "jyut4B|2"
+  },
+  {
+    "ucs2": "7ACB",
+    "part": "立",
+    "description": "立",
+    "jyutping": "lep4B|2"
+  },
+  {
+    "ucs2": "7AF9",
+    "part": "竹",
+    "description": "竹",
+    "jyutping": "zuk4Aa|5"
+  },
+  {
+    "ucs2": "7C73",
+    "part": "米",
+    "description": "米",
+    "jyutping": "mei2B|13"
+  },
+  {
+    "ucs2": "7CF8",
+    "part": "糸",
+    "description": "糸",
+    "jyutping": "mik4B|2"
+  },
+  {
+    "ucs2": "7CF9",
+    "part": "糹*",
+    "description": "繑絲邊",
+    "jyutping": "kiu2B|13 si1A|55 bin1A|55"
+  },
+  {
+    "ucs2": "7E9F",
+    "part": "纟*",
+    "description": "簡化繑絲邊",
+    "jyutping": "gan2A|35 fa3A|33 kiu2B|13 si1A|55 bin1A|55"
+  },
+  {
+    "ucs2": "7F36",
+    "part": "缶",
+    "description": "缶",
+    "jyutping": "feu2A|35"
+  },
+  {
+    "ucs2": "7F51",
+    "part": "网",
+    "description": "网",
+    "jyutping": "mong2B|13"
+  },
+  {
+    "ucs2": "7F52",
+    "part": "罒",
+    "description": "四网頭",
+    "jyutping": "seai3A|33 mong2B|13 teu1B|21"
+  },
+  {
+    "ucs2": "7F53",
+    "part": "罓",
+    "description": "交叉四",
+    "jyutping": "gau1A|55 ca1A|55 seai3A|33"
+  },
+  {
+    "ucs2": "7F8A",
+    "part": "羊",
+    "description": "羊",
+    "jyutping": "jeong1B|21"
+  },
+  {
+    "ucs2": "7FBD",
+    "part": "羽",
+    "description": "羽",
+    "jyutping": "jyu2B|13"
+  },
+  {
+    "ucs2": "8001",
+    "part": "老",
+    "description": "老",
+    "jyutping": "lou2B|13"
+  },
+  {
+    "ucs2": "8002",
+    "part": "耂*",
+    "description": "老字頭",
+    "jyutping": "lou2B|13 zi3B|22 teu1B|21"
+  },
+  {
+    "ucs2": "800C",
+    "part": "而",
+    "description": "而",
+    "jyutping": "ji1B|21"
+  },
+  {
+    "ucs2": "8012",
+    "part": "耒",
+    "description": "耒",
+    "jyutping": "loi3B|22"
+  },
+  {
+    "ucs2": "8033",
+    "part": "耳",
+    "description": "耳",
+    "jyutping": "ji2B|13"
+  },
+  {
+    "ucs2": "807F",
+    "part": "聿",
+    "description": "聿",
+    "jyutping": "wet4B|2"
+  },
+  {
+    "ucs2": "8080",
+    "part": "肀*",
+    "description": "書字頭",
+    "jyutping": "syu1A|55 zi3B|22 teu1B|21"
+  },
+  {
+    "ucs2": "8089",
+    "part": "肉",
+    "description": "肉",
+    "jyutping": "juk4B|2"
+  },
+  {
+    "ucs2": "81E3",
+    "part": "臣",
+    "description": "臣",
+    "jyutping": "sen1B|21"
+  },
+  {
+    "ucs2": "81EA",
+    "part": "自",
+    "description": "自",
+    "jyutping": "zi3B|22"
+  },
+  {
+    "ucs2": "81F3",
+    "part": "至",
+    "description": "至",
+    "jyutping": "zi3A|33"
+  },
+  {
+    "ucs2": "81FC",
+    "part": "臼",
+    "description": "臼",
+    "jyutping": "keu3A|33"
+  },
+  {
+    "ucs2": "820C",
+    "part": "舌",
+    "description": "舌",
+    "jyutping": "sit4Ab|3"
+  },
+  {
+    "ucs2": "821B",
+    "part": "舛",
+    "description": "舛",
+    "jyutping": "cyun2A|35"
+  },
+  {
+    "ucs2": "821F",
+    "part": "舟",
+    "description": "舟",
+    "jyutping": "zeu1A|55"
+  },
+  {
+    "ucs2": "826E",
+    "part": "艮",
+    "description": "艮",
+    "jyutping": "gen3A|33"
+  },
+  {
+    "ucs2": "8272",
+    "part": "色",
+    "description": "色",
+    "jyutping": "sik4Aa|5"
+  },
+  {
+    "ucs2": "8278",
+    "part": "艸",
+    "description": "艸",
+    "jyutping": "cou2A|35"
+  },
+  {
+    "ucs2": "8279",
+    "part": "艹",
+    "description": "草花頭",
+    "jyutping": "cou2A|35 fa1A|55 teu2A|35"
+  },
+  {
+    "ucs2": "864D",
+    "part": "虍",
+    "description": "虎字頭",
+    "jyutping": "fu2A|35 zi3B|22 teu1B|21"
+  },
+  {
+    "ucs2": "866B",
+    "part": "虫",
+    "description": "虫",
+    "jyutping": "cung1B|21"
+  },
+  {
+    "ucs2": "8840",
+    "part": "血",
+    "description": "血",
+    "jyutping": "hyut4Ab|3"
+  },
+  {
+    "ucs2": "884C",
+    "part": "行",
+    "description": "行",
+    "jyutping": "heng1B|21"
+  },
+  {
+    "ucs2": "8863",
+    "part": "衣",
+    "description": "衣",
+    "jyutping": "ji1A|55"
+  },
+  {
+    "ucs2": "8864",
+    "part": "衤*",
+    "description": "衣字邊",
+    "jyutping": "ji1A|55 zi3B|22 bin1A|55"
+  },
+  {
+    "ucs2": "897E",
+    "part": "襾",
+    "description": "襾",
+    "jyutping": "a3A|33"
+  },
+  {
+    "ucs2": "8980",
+    "part": "覀*",
+    "description": "西字頭",
+    "jyutping": "sei1A|55 zi3B|22 teu1B|21"
+  },
+  {
+    "ucs2": "898B",
+    "part": "見",
+    "description": "見",
+    "jyutping": "gin3A|33"
+  },
+  {
+    "ucs2": "89D2",
+    "part": "角",
+    "description": "角",
+    "jyutping": "gok4Ab|3"
+  },
+  {
+    "ucs2": "8A00",
+    "part": "言",
+    "description": "言",
+    "jyutping": "jin1B|21"
+  },
+  {
+    "ucs2": "8A01",
+    "part": "訁*",
+    "description": "言字邊",
+    "jyutping": "jin1B|21 zi3B|22 bin1A|55"
+  },
+  {
+    "ucs2": "8BA0",
+    "part": "讠*",
+    "description": "簡化言字邊",
+    "jyutping": "gan2A|35 fa3A|33 jin1B|21 zi3B|22 bin1A|55"
+  },
+  {
+    "ucs2": "8C37",
+    "part": "谷",
+    "description": "谷",
+    "jyutping": "guk4Aa|5"
+  },
+  {
+    "ucs2": "8C46",
+    "part": "豆",
+    "description": "豆",
+    "jyutping": "deu3B|22"
+  },
+  {
+    "ucs2": "8C55",
+    "part": "豕",
+    "description": "豕",
+    "jyutping": "ci2A|35"
+  },
+  {
+    "ucs2": "8C78",
+    "part": "豸",
+    "description": "豸",
+    "jyutping": "zi3B|22"
+  },
+  {
+    "ucs2": "8C9D",
+    "part": "貝",
+    "description": "貝",
+    "jyutping": "bui3A|33"
+  },
+  {
+    "ucs2": "8D64",
+    "part": "赤",
+    "description": "赤",
+    "jyutping": "ceak4Ab|3"
+  },
+  {
+    "ucs2": "8D70",
+    "part": "走",
+    "description": "走",
+    "jyutping": "zeu2A|35"
+  },
+  {
+    "ucs2": "8DB3",
+    "part": "足",
+    "description": "足",
+    "jyutping": "zuk4Aa|5"
+  },
+  {
+    "ucs2": "8EAB",
+    "part": "身",
+    "description": "身",
+    "jyutping": "sen1A|55"
+  },
+  {
+    "ucs2": "8ECA",
+    "part": "車",
+    "description": "車",
+    "jyutping": "cea1A|55"
+  },
+  {
+    "ucs2": "8F9B",
+    "part": "辛",
+    "description": "辛",
+    "jyutping": "sen1A|55"
+  },
+  {
+    "ucs2": "8FB0",
+    "part": "辰",
+    "description": "辰",
+    "jyutping": "sen1B|21"
+  },
+  {
+    "ucs2": "8FB5",
+    "part": "辵",
+    "description": "辵",
+    "jyutping": "ceok4Ab|3"
+  },
+  {
+    "ucs2": "8FB6",
+    "part": "辶",
+    "description": "撑艇",
+    "jyutping": "cang1A|55 teang2B|13"
+  },
+  {
+    "ucs2": "9091",
+    "part": "邑",
+    "description": "邑",
+    "jyutping": "jep4Aa|5"
+  },
+  {
+    "ucs2": "9149",
+    "part": "酉",
+    "description": "酉",
+    "jyutping": "jeu2B|13"
+  },
+  {
+    "ucs2": "91C6",
+    "part": "釆",
+    "description": "釆",
+    "jyutping": "bin3B|22"
+  },
+  {
+    "ucs2": "91CC",
+    "part": "里",
+    "description": "里",
+    "jyutping": "leai2B|13"
+  },
+  {
+    "ucs2": "91D1",
+    "part": "金",
+    "description": "金",
+    "jyutping": "gem1A|55"
+  },
+  {
+    "ucs2": "91D2",
+    "part": "釒*",
+    "description": "金字邊",
+    "jyutping": "gem1A|55 zi3B|22 bin1A|55"
+  },
+  {
+    "ucs2": "9485",
+    "part": "钅*",
+    "description": "簡化金字邊",
+    "jyutping": "gan2A|35 fa3A|33 gem1A|55 zi3B|22 bin1A|55"
+  },
+  {
+    "ucs2": "9577",
+    "part": "長",
+    "description": "長",
+    "jyutping": "ceong1B|21"
+  },
+  {
+    "ucs2": "9580",
+    "part": "門",
+    "description": "門",
+    "jyutping": "mun1B|21"
+  },
+  {
+    "ucs2": "961C",
+    "part": "阜",
+    "description": "阜",
+    "jyutping": "feu3B|22"
+  },
+  {
+    "ucs2": "961D",
+    "part": "阝",
+    "description": "耳仔邊",
+    "jyutping": "ji2B|13 zei2A|35 bin1A|55"
+  },
+  {
+    "ucs2": "96B6",
+    "part": "隶",
+    "description": "隶",
+    "jyutping": "dei3B|22"
+  },
+  {
+    "ucs2": "96B9",
+    "part": "隹",
+    "description": "隹",
+    "jyutping": "zoei1A|55"
+  },
+  {
+    "ucs2": "96E8",
+    "part": "雨",
+    "description": "雨",
+    "jyutping": "jyu2B|13"
+  },
+  {
+    "ucs2": "9751",
+    "part": "靑",
+    "description": "靑",
+    "jyutping": "cing1A|55"
+  },
+  {
+    "ucs2": "975E",
+    "part": "非",
+    "description": "非",
+    "jyutping": "feai1A|55"
+  },
+  {
+    "ucs2": "9762",
+    "part": "面",
+    "description": "面",
+    "jyutping": "min3B|22"
+  },
+  {
+    "ucs2": "9769",
+    "part": "革",
+    "description": "革",
+    "jyutping": "gak4Ab|3"
+  },
+  {
+    "ucs2": "97CB",
+    "part": "韋",
+    "description": "韋",
+    "jyutping": "wei1B|21"
+  },
+  {
+    "ucs2": "97ED",
+    "part": "韭",
+    "description": "韭",
+    "jyutping": "geu2A|35"
+  },
+  {
+    "ucs2": "97F3",
+    "part": "音",
+    "description": "音",
+    "jyutping": "jem1A|55"
+  },
+  {
+    "ucs2": "9801",
+    "part": "頁",
+    "description": "頁",
+    "jyutping": "jip4B|2"
+  },
+  {
+    "ucs2": "98A8",
+    "part": "風",
+    "description": "風",
+    "jyutping": "fung1A|55"
+  },
+  {
+    "ucs2": "98DB",
+    "part": "飛",
+    "description": "飛",
+    "jyutping": "feai1A|55"
+  },
+  {
+    "ucs2": "98DF",
+    "part": "食",
+    "description": "食",
+    "jyutping": "sik4B|2"
+  },
+  {
+    "ucs2": "98E0",
+    "part": "飠*",
+    "description": "食字邊",
+    "jyutping": "sik4B|2 zi3B|22 bin1A|55"
+  },
+  {
+    "ucs2": "9963",
+    "part": "饣*",
+    "description": "簡化食字邊",
+    "jyutping": "gan2A|35 fa3A|33 sik4B|2 zi3B|22 bin1A|55"
+  },
+  {
+    "ucs2": "9996",
+    "part": "首",
+    "description": "首",
+    "jyutping": "seu2A|35"
+  },
+  {
+    "ucs2": "9999",
+    "part": "香",
+    "description": "香",
+    "jyutping": "heong1A|55"
+  },
+  {
+    "ucs2": "99AC",
+    "part": "馬",
+    "description": "馬",
+    "jyutping": "ma2B|13"
+  },
+  {
+    "ucs2": "9AA8",
+    "part": "骨",
+    "description": "骨",
+    "jyutping": "gwet4Aa|5"
+  },
+  {
+    "ucs2": "9AD8",
+    "part": "高",
+    "description": "高",
+    "jyutping": "gou1A|55"
+  },
+  {
+    "ucs2": "9ADF",
+    "part": "髟",
+    "description": "髮字頭",
+    "jyutping": "fat4Ab|3 zi3B|22 teu1B|21"
+  },
+  {
+    "ucs2": "9B25",
+    "part": "鬥",
+    "description": "鬥",
+    "jyutping": "deu3A|33"
+  },
+  {
+    "ucs2": "9B2F",
+    "part": "鬯",
+    "description": "鬯",
+    "jyutping": "ceong3A|33"
+  },
+  {
+    "ucs2": "9B32",
+    "part": "鬲",
+    "description": "鬲",
+    "jyutping": "lik4B|2"
+  },
+  {
+    "ucs2": "9B3C",
+    "part": "鬼",
+    "description": "鬼",
+    "jyutping": "gwei2A|35"
+  },
+  {
+    "ucs2": "9B5A",
+    "part": "魚",
+    "description": "魚",
+    "jyutping": "jyu1B|21"
+  },
+  {
+    "ucs2": "9CE5",
+    "part": "鳥",
+    "description": "鳥",
+    "jyutping": "niu2B|13"
+  },
+  {
+    "ucs2": "9E75",
+    "part": "鹵",
+    "description": "鹵",
+    "jyutping": "lou2B|13"
+  },
+  {
+    "ucs2": "9E7F",
+    "part": "鹿",
+    "description": "鹿",
+    "jyutping": "luk4B|2"
+  },
+  {
+    "ucs2": "9EA5",
+    "part": "麥",
+    "description": "麥",
+    "jyutping": "mek4B|2"
+  },
+  {
+    "ucs2": "9EBB",
+    "part": "麻",
+    "description": "麻",
+    "jyutping": "ma1B|21"
+  },
+  {
+    "ucs2": "9EC3",
+    "part": "黃",
+    "description": "黃",
+    "jyutping": "wong1B|21"
+  },
+  {
+    "ucs2": "9ECD",
+    "part": "黍",
+    "description": "黍",
+    "jyutping": "syu2A|35"
+  },
+  {
+    "ucs2": "9ED1",
+    "part": "黑",
+    "description": "黑",
+    "jyutping": "hek4Aa|5"
+  },
+  {
+    "ucs2": "9EF9",
+    "part": "黹",
+    "description": "黹",
+    "jyutping": "zi2A|35"
+  },
+  {
+    "ucs2": "9EFD",
+    "part": "黽",
+    "description": "黽",
+    "jyutping": "men2B|13"
+  },
+  {
+    "ucs2": "9F0E",
+    "part": "鼎",
+    "description": "鼎",
+    "jyutping": "ding2A|35"
+  },
+  {
+    "ucs2": "9F13",
+    "part": "鼓",
+    "description": "鼓",
+    "jyutping": "gu2A|35"
+  },
+  {
+    "ucs2": "9F20",
+    "part": "鼠",
+    "description": "鼠",
+    "jyutping": "syu2A|35"
+  },
+  {
+    "ucs2": "9F3B",
+    "part": "鼻",
+    "description": "鼻",
+    "jyutping": "beai3B|22"
+  },
+  {
+    "ucs2": "9F4A",
+    "part": "齊",
+    "description": "齊",
+    "jyutping": "cei1B|21"
+  },
+  {
+    "ucs2": "9F52",
+    "part": "齒",
+    "description": "齒",
+    "jyutping": "ci2A|35"
+  },
+  {
+    "ucs2": "9F8D",
+    "part": "龍",
+    "description": "龍",
+    "jyutping": "lung1B|21"
+  },
+  {
+    "ucs2": "9F9C",
+    "part": "龜",
+    "description": "龜",
+    "jyutping": "gwei1A|55"
+  },
+  {
+    "ucs2": "9FA0",
+    "part": "龠",
+    "description": "龠",
+    "jyutping": "jeok4B|2"
+  },
+  {
+    "ucs2": "21BC2",
+    "part": "𡯂",
+    "description": "八几",
+    "jyutping": "bat4Ab|3 geai1A|55"
+  },
+  {
+    "ucs2": "2626B",
+    "part": "𦉫",
+    "description": "開口皿",
+    "jyutping": "hoi1A|55 heu2A|35 ming2B|13"
+  },
+  {
+    "ucs2": "200D1",
+    "part": "𠃑*",
+    "description": "三節豎",
+    "jyutping": "sam1A|55 zit4Ab|3 syu3B|22"
+  },
+  {
+    "ucs2": "200CD",
+    "part": "𠃍*",
+    "description": "橫豎角",
+    "jyutping": "wang1B|21 syu3B|22 gok4Ab|3"
+  },
+  {
+    "ucs2": "248E9",
+    "part": "𤣩",
+    "description": "玉王邊",
+    "jyutping": "juk4B|2 wong1B|21 bin1A|55"
+  },
+  {
+    "ucs2": "2626A",
+    "part": "𦉪*",
+    "description": "開口四",
+    "jyutping": "hoi1A|55 heu2A|35 seai3A|33"
+  },
+  {
+    "ucs2": "2008A",
+    "part": "𠂊*",
+    "description": "缺捺久",
+    "jyutping": "kyut4Ab|3 nat4B|2 geu2A|35"
+  },
+  {
+    "ucs2": "27607",
+    "part": "𧘇*",
+    "description": "衣字底",
+    "jyutping": "ji1A|55 zi3B|22 dei2A|35"
+  }
+]
