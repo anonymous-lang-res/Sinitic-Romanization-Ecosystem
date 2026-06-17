@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhonEngine CSV to Rime Converter</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <style>
+    body {
+      background-color: #f3f4f6;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    .scrollbar::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    .scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
+    }
+
+    .scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    .scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    .soft-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    .label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+      margin-bottom: 0.35rem;
+    }
+
+    .field {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      padding: 0.55rem 0.7rem;
+      outline: none;
+      transition: all 0.2s;
+      background: white;
+      color: #111827;
+    }
+
+    .field:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.18);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      border-radius: 0.5rem;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-blue {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-blue:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-green {
+      background: #16a34a;
+      color: white;
+    }
+
+    .btn-green:hover {
+      background: #15803d;
+    }
+
+    .btn-purple {
+      background: #7c3aed;
+      color: white;
+    }
+
+    .btn-purple:hover {
+      background: #6d28d9;
+    }
+
+    .btn-gray {
+      background: white;
+      color: #374151;
+      border: 1px solid #d1d5db;
+    }
+
+    .btn-gray:hover {
+      background: #f9fafb;
+    }
+
+    .tiny-bilingual {
+      display: block;
+      font-size: 0.68rem;
+      color: #9ca3af;
+      line-height: 1.1;
+      font-weight: 600;
+      margin-top: 0.1rem;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .drop-zone {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .drop-zone:hover,
+    .drop-zone.dragover {
+      border-color: #60a5fa;
+      background: #eff6ff;
+    }
+
+    .preview-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 0.75rem;
+      border: 1px solid #1e293b;
+      padding: 1rem;
+      max-height: 22rem;
+      overflow: auto;
+      white-space: pre;
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="min-h-screen p-4 md:p-8 font-sans text-gray-900">
+    <div class="max-w-6xl mx-auto">
+      <header class="mb-6 pb-5 border-b border-gray-300">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+          <div>
+            <p class="text-xs font-bold text-gray-400 mb-1">
+              PhonEngine PhonConvert Related Tool
+            </p>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800">
+              CSV 同音字表 → Rime 输入法配置
+              <span class="block text-xl md:text-2xl text-gray-500 mt-1">
+                CSV Homophone Table → Rime Input Method Files
+              </span>
+            </h1>
+          </div>
+
+          <div class="text-sm text-gray-500 max-w-md">
+            上传 PhonConvert 导出的 CSV 同音字表，生成最基础可用的 Rime
+            <span class="font-semibold text-gray-700">无声调</span>输入法配置文件。
+            <span class="block mt-1">
+              Upload a PhonConvert CSV table and generate minimal tone-free Rime configuration files.
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <main class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <section class="lg:col-span-1 space-y-5">
+          <div class="soft-card p-5">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 border-l-4 border-blue-500 pl-3">
+              1. 上传 CSV 字表
+              <span class="tiny-bilingual">Upload CSV table</span>
+            </h2>
+
+            <input id="csvFileInput" type="file" accept=".csv,text/csv" />
+
+            <div id="dropZone" class="drop-zone">
+              <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 12V4m0 0l-4 4m4-4l4 4" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="font-bold text-gray-700">点击或拖拽 CSV 到这里</p>
+                  <p class="text-xs text-gray-500 mt-1">Click or drag a CSV file here</p>
+                </div>
+              </div>
+            </div>
+
+            <div id="fileInfo" class="mt-3 text-sm text-gray-500">
+              尚未选择文件 / No file selected
+            </div>
+          </div>
+
+          <div class="soft-card p-5">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 border-l-4 border-blue-500 pl-3">
+              2. 输入法参数
+              <span class="tiny-bilingual">Input method parameters</span>
+            </h2>
+
+            <div class="space-y-4">
+              <div>
+                <label class="label" for="schemaId">
+                  Schema ID
+                  <span class="tiny-bilingual">Rime 方案 ID；建议小写字母、数字、下划线</span>
+                </label>
+                <input id="schemaId" class="field mono" value="romzj_input" placeholder="romzj_input" />
+              </div>
+
+              <div>
+                <label class="label" for="schemaName">
+                  Schema Name
+                  <span class="tiny-bilingual">输入法显示名称 / Display name</span>
+                </label>
+                <input id="schemaName" class="field" value="RomZJ Input" placeholder="RomZJ Input" />
+              </div>
+
+              <div>
+                <label class="label" for="version">
+                  Version
+                  <span class="tiny-bilingual">版本号 / Version string</span>
+                </label>
+                <input id="version" class="field mono" value="0.1.0" placeholder="0.1.0" />
+              </div>
+
+              <div>
+                <label class="label" for="authorPlaceholder">
+                  Author Placeholder
+                  <span class="tiny-bilingual">作者占位符；不会自动填入有效身份信息</span>
+                </label>
+                <input id="authorPlaceholder" class="field" value="YOUR_NAME <YOUR_EMAIL>" />
+              </div>
+            </div>
+
+            <div class="mt-5 p-3 rounded-lg bg-amber-50 border border-amber-200 text-sm text-amber-800">
+              <strong>注意 / Note:</strong>
+              输入码会自动移除结尾声调信息，只保留字母部分。
+              <span class="block mt-1">
+                Final tone notation is removed automatically; only letter codes are kept.
+              </span>
+            </div>
+          </div>
+
+          <div class="soft-card p-5">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 border-l-4 border-blue-500 pl-3">
+              3. 生成与下载
+              <span class="tiny-bilingual">Generate & download</span>
+            </h2>
+
+            <div class="grid grid-cols-1 gap-3">
+              <button id="generateBtn" class="btn btn-blue">
+                生成配置 / Generate Files
+              </button>
+              <button id="downloadZipBtn" class="btn btn-purple opacity-50 cursor-not-allowed" disabled>
+                下载 ZIP / Download ZIP
+              </button>
+              <div class="grid grid-cols-2 gap-3">
+                <button id="downloadSchemaBtn" class="btn btn-gray opacity-50 cursor-not-allowed" disabled>
+                  Schema
+                </button>
+                <button id="downloadDictBtn" class="btn btn-gray opacity-50 cursor-not-allowed" disabled>
+                  Dict
+                </button>
+              </div>
+            </div>
+
+            <div id="statusBox" class="mt-4 text-sm text-gray-500">
+              等待生成 / Waiting
+            </div>
+          </div>
+        </section>
+
+        <section class="lg:col-span-2 space-y-5">
+          <div class="soft-card p-5">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 border-l-4 border-green-500 pl-3">
+              生成统计
+              <span class="tiny-bilingual">Generation statistics</span>
+            </h2>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <p class="text-xs font-bold text-gray-400 uppercase">CSV Rows</p>
+                <p id="statRows" class="text-2xl font-extrabold text-gray-800 mt-1">0</p>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <p class="text-xs font-bold text-gray-400 uppercase">Entries</p>
+                <p id="statEntries" class="text-2xl font-extrabold text-gray-800 mt-1">0</p>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <p class="text-xs font-bold text-gray-400 uppercase">Unique Codes</p>
+                <p id="statCodes" class="text-2xl font-extrabold text-gray-800 mt-1">0</p>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <p class="text-xs font-bold text-gray-400 uppercase">Duplicates</p>
+                <p id="statDuplicates" class="text-2xl font-extrabold text-gray-800 mt-1">0</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="soft-card p-5">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+              <h2 class="text-lg font-bold text-gray-800 border-l-4 border-slate-500 pl-3">
+                词典预览
+                <span class="tiny-bilingual">Dictionary preview</span>
+              </h2>
+              <span class="text-xs text-gray-400">
+                仅显示前 80 行 / Showing first 80 lines only
+              </span>
+            </div>
+            <pre id="dictPreview" class="preview-box scrollbar">尚未生成 / Not generated yet</pre>
+          </div>
+
+          <div class="soft-card p-5">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+              <h2 class="text-lg font-bold text-gray-800 border-l-4 border-slate-500 pl-3">
+                Schema 预览
+                <span class="tiny-bilingual">Schema preview</span>
+              </h2>
+            </div>
+            <pre id="schemaPreview" class="preview-box scrollbar">尚未生成 / Not generated yet</pre>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    let currentCsvText = "";
+    let currentCsvFileName = "";
+    let generatedSchema = "";
+    let generatedDict = "";
+    let generatedSchemaFileName = "";
+    let generatedDictFileName = "";
+
+    const fileInput = document.getElementById("csvFileInput");
+    const dropZone = document.getElementById("dropZone");
+    const fileInfo = document.getElementById("fileInfo");
+    const statusBox = document.getElementById("statusBox");
+
+    const generateBtn = document.getElementById("generateBtn");
+    const downloadZipBtn = document.getElementById("downloadZipBtn");
+    const downloadSchemaBtn = document.getElementById("downloadSchemaBtn");
+    const downloadDictBtn = document.getElementById("downloadDictBtn");
+
+    const statRows = document.getElementById("statRows");
+    const statEntries = document.getElementById("statEntries");
+    const statCodes = document.getElementById("statCodes");
+    const statDuplicates = document.getElementById("statDuplicates");
+
+    const dictPreview = document.getElementById("dictPreview");
+    const schemaPreview = document.getElementById("schemaPreview");
+
+    const TONE_SUFFIX_RE = /(?:[1-9][A-Za-z]{0,2}(?:\|\d{1,2})?|[1-9])$/;
+
+    function setStatus(message, type = "info") {
+      const colors = {
+        info: "text-gray-500",
+        ok: "text-green-700",
+        warn: "text-amber-700",
+        error: "text-red-700"
+      };
+      statusBox.className = "mt-4 text-sm " + (colors[type] || colors.info);
+      statusBox.textContent = message;
+    }
+
+    function sanitizeSchemaId(value) {
+      let s = value.trim();
+      if (!s) return "romzj_input";
+      s = s.replace(/[^A-Za-z0-9_]/g, "_");
+      s = s.replace(/_+/g, "_");
+      s = s.replace(/^_+|_+$/g, "");
+      return s || "romzj_input";
+    }
+
+    function yamlQuote(value) {
+      return '"' + String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
+    }
+
+    function stripTone(code) {
+      return String(code).trim().replace(TONE_SUFFIX_RE, "");
+    }
+
+    function normalizeCode(code) {
+      // No-tone Rime input: remove final tone notation, then keep letters only.
+      return stripTone(code).replace(/[^A-Za-z]/g, "").toLowerCase();
+    }
+
+    function splitCharacters(characters) {
+      return Array.from(String(characters).trim()).filter(ch => !/\s/.test(ch));
+    }
+
+    function parseCsv(text) {
+      // Small CSV parser supporting quoted fields and escaped double quotes.
+      const rows = [];
+      let row = [];
+      let field = "";
+      let inQuotes = false;
+
+      text = text.replace(/^\uFEFF/, "");
+
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        const next = text[i + 1];
+
+        if (inQuotes) {
+          if (ch === '"' && next === '"') {
+            field += '"';
+            i++;
+          } else if (ch === '"') {
+            inQuotes = false;
+          } else {
+            field += ch;
+          }
+        } else {
+          if (ch === '"') {
+            inQuotes = true;
+          } else if (ch === ",") {
+            row.push(field);
+            field = "";
+          } else if (ch === "\n") {
+            row.push(field);
+            rows.push(row);
+            row = [];
+            field = "";
+          } else if (ch === "\r") {
+            // ignore CR; LF will close the row
+          } else {
+            field += ch;
+          }
+        }
+      }
+
+      row.push(field);
+      if (row.length > 1 || row[0].trim() !== "") {
+        rows.push(row);
+      }
+
+      return rows;
+    }
+
+    function detectColumns(header) {
+      const normalized = header.map(h => String(h).trim().toLowerCase());
+
+      const codeCandidates = new Set([
+        "syllable/combination",
+        "syllable",
+        "combination",
+        "code",
+        "romanization",
+        "拼音",
+        "讀音",
+        "读音"
+      ]);
+
+      const charCandidates = new Set([
+        "汉字",
+        "漢字",
+        "characters",
+        "character",
+        "chars"
+      ]);
+
+      let codeIdx = -1;
+      let charIdx = -1;
+
+      normalized.forEach((name, idx) => {
+        if (codeCandidates.has(name)) codeIdx = idx;
+        if (charCandidates.has(name)) charIdx = idx;
+      });
+
+      if (codeIdx < 0) codeIdx = 0;
+      if (charIdx < 0) charIdx = 1;
+
+      return { codeIdx, charIdx };
+    }
+
+    function readHomophoneCsv(text) {
+      const rows = parseCsv(text);
+      if (rows.length === 0) {
+        throw new Error("CSV 文件为空 / CSV file is empty.");
+      }
+
+      const header = rows[0];
+      const { codeIdx, charIdx } = detectColumns(header);
+
+      const entries = [];
+      const seen = new Set();
+      const codeSet = new Set();
+      let duplicateCount = 0;
+      let weight = 1000000;
+
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        if (row.length <= Math.max(codeIdx, charIdx)) continue;
+
+        const rawCode = String(row[codeIdx] || "").trim();
+        const chars = String(row[charIdx] || "").trim();
+        const code = normalizeCode(rawCode);
+
+        if (!rawCode || !chars || !code) continue;
+
+        for (const ch of splitCharacters(chars)) {
+          const key = ch + "\t" + code;
+          if (seen.has(key)) {
+            duplicateCount += 1;
+            continue;
+          }
+          seen.add(key);
+          codeSet.add(code);
+          entries.push({ char: ch, code, weight });
+          weight -= 1;
+        }
+      }
+
+      return {
+        entries,
+        rowCount: Math.max(rows.length - 1, 0),
+        uniqueCodeCount: codeSet.size,
+        duplicateCount
+      };
+    }
+
+    function makeSchemaYaml(schemaId, schemaName, version, authorPlaceholder) {
+      return `# Rime schema
+# encoding: utf-8
+# Author information is intentionally left as placeholders.
+
+schema:
+  schema_id: ${schemaId}
+  name: ${yamlQuote(schemaName)}
+  version: ${yamlQuote(version)}
+  author:
+    - ${yamlQuote(authorPlaceholder || "YOUR_NAME <YOUR_EMAIL>")}
+
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ 中文, ASCII ]
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - script_translator
+
+speller:
+  alphabet: "abcdefghijklmnopqrstuvwxyz"
+  delimiter: " '"
+
+translator:
+  dictionary: ${schemaId}
+  enable_sentence: false
+  enable_user_dict: true
+  spelling_hints: 5
+
+punctuator:
+  import_preset: default
+
+key_binder:
+  import_preset: default
+
+recognizer:
+  import_preset: default
+`;
+    }
+
+    function makeDictYaml(schemaId, version, entries) {
+      const lines = [
+        "# Rime dictionary",
+        "# encoding: utf-8",
+        "# Author information is intentionally left as placeholders.",
+        "",
+        "---",
+        `name: ${schemaId}`,
+        `version: ${yamlQuote(version)}`,
+        "sort: by_weight",
+        "use_preset_vocabulary: false",
+        "...",
+        ""
+      ];
+
+      for (const item of entries) {
+        lines.push(`${item.char}\t${item.code}\t${item.weight}`);
+      }
+
+      return lines.join("\n") + "\n";
+    }
+
+    function enableDownloadButtons(enabled) {
+      for (const btn of [downloadZipBtn, downloadSchemaBtn, downloadDictBtn]) {
+        btn.disabled = !enabled;
+        btn.classList.toggle("opacity-50", !enabled);
+        btn.classList.toggle("cursor-not-allowed", !enabled);
+      }
+    }
+
+    function updatePreview(textElement, content, maxLines = 80) {
+      const lines = content.split(/\r?\n/);
+      const preview = lines.slice(0, maxLines).join("\n");
+      textElement.textContent = preview + (lines.length > maxLines ? `\n...\n[${lines.length - maxLines} more lines]` : "");
+    }
+
+    function downloadText(filename, content, mime = "text/plain;charset=utf-8") {
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
+    function handleFile(file) {
+      if (!file) return;
+
+      currentCsvFileName = file.name;
+      fileInfo.textContent = `已选择 / Selected: ${file.name} (${Math.round(file.size / 1024)} KB)`;
+      setStatus("正在读取 CSV / Reading CSV...", "info");
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        currentCsvText = event.target.result || "";
+        setStatus("CSV 已读取，可生成配置 / CSV loaded. Ready to generate.", "ok");
+      };
+      reader.onerror = () => {
+        currentCsvText = "";
+        setStatus("读取失败 / Failed to read file.", "error");
+      };
+      reader.readAsText(file, "utf-8");
+    }
+
+    dropZone.addEventListener("click", () => fileInput.click());
+    fileInput.addEventListener("change", (e) => handleFile(e.target.files[0]));
+
+    dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropZone.classList.add("dragover");
+    });
+
+    dropZone.addEventListener("dragleave", () => {
+      dropZone.classList.remove("dragover");
+    });
+
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropZone.classList.remove("dragover");
+      handleFile(e.dataTransfer.files[0]);
+    });
+
+    generateBtn.addEventListener("click", () => {
+      try {
+        if (!currentCsvText) {
+          setStatus("请先上传 CSV 文件 / Please upload a CSV file first.", "warn");
+          return;
+        }
+
+        const schemaId = sanitizeSchemaId(document.getElementById("schemaId").value);
+        const schemaName = document.getElementById("schemaName").value.trim() || "RomZJ Input";
+        const version = document.getElementById("version").value.trim() || "0.1.0";
+        const authorPlaceholder = document.getElementById("authorPlaceholder").value.trim() || "YOUR_NAME <YOUR_EMAIL>";
+
+        document.getElementById("schemaId").value = schemaId;
+
+        const result = readHomophoneCsv(currentCsvText);
+        if (result.entries.length === 0) {
+          throw new Error("没有生成任何词条，请检查 CSV 列名和内容 / No entries generated. Please check CSV columns and content.");
+        }
+
+        generatedSchema = makeSchemaYaml(schemaId, schemaName, version, authorPlaceholder);
+        generatedDict = makeDictYaml(schemaId, version, result.entries);
+        generatedSchemaFileName = `${schemaId}.schema.yaml`;
+        generatedDictFileName = `${schemaId}.dict.yaml`;
+
+        statRows.textContent = result.rowCount;
+        statEntries.textContent = result.entries.length;
+        statCodes.textContent = result.uniqueCodeCount;
+        statDuplicates.textContent = result.duplicateCount;
+
+        updatePreview(dictPreview, generatedDict);
+        updatePreview(schemaPreview, generatedSchema, 120);
+
+        enableDownloadButtons(true);
+        setStatus(`生成成功 / Generated successfully: ${result.entries.length} entries.`, "ok");
+      } catch (err) {
+        console.error(err);
+        enableDownloadButtons(false);
+        setStatus(err.message || "生成失败 / Generation failed.", "error");
+        alert(err.message || "生成失败 / Generation failed.");
+      }
+    });
+
+    downloadSchemaBtn.addEventListener("click", () => {
+      if (!generatedSchema) return;
+      downloadText(generatedSchemaFileName, generatedSchema, "text/yaml;charset=utf-8");
+    });
+
+    downloadDictBtn.addEventListener("click", () => {
+      if (!generatedDict) return;
+      downloadText(generatedDictFileName, generatedDict, "text/yaml;charset=utf-8");
+    });
+
+    downloadZipBtn.addEventListener("click", async () => {
+      if (!generatedSchema || !generatedDict) return;
+
+      if (typeof JSZip === "undefined") {
+        alert("JSZip 未加载，无法生成 ZIP。请改为分别下载 Schema 和 Dict 文件。");
+        return;
+      }
+
+      const zip = new JSZip();
+      zip.file(generatedSchemaFileName, generatedSchema);
+      zip.file(generatedDictFileName, generatedDict);
+
+      const schemaId = sanitizeSchemaId(document.getElementById("schemaId").value);
+      const blob = await zip.generateAsync({ type: "blob" });
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${schemaId}_rime_files.zip`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
