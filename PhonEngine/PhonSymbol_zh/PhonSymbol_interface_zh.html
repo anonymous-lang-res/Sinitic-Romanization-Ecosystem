@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="x-poe-datastore-behavior" content="local_only">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.com https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Scheme Editor</title>
+    <script src="./libs/tailwindcss.js"></script>
+    <script src="./libs/react.production.min.js"></script>
+    <script src="./libs/react-dom.production.min.js"></script>
+    <script src="./libs/babel.min.js"></script>
+    <style>
+        body { background-color: #f3f4f6; }
+        input[type="file"] { display: none; }
+        /* 开关核心样式 - 全程固定灰色，无颜色变化 */
+        .switch-toggle {
+            position: relative;
+            display: inline-block;
+            width: 120px;
+            height: 32px;
+        }
+        .switch-toggle input {
+            opacity: 0;
+            position: absolute;
+        }
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e5e7eb; /* 原界面统一浅灰色 */
+            border-radius: 16px;
+            transition: 0.3s;
+        }
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 52px;
+            left: 4px;
+            bottom: 4px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+        /* 仅滑动滑块，背景颜色固定不变 */
+        input:checked + .switch-slider:before {
+            transform: translateX(60px);
+        }
+        /* 两个标签永久显示，绝不隐藏 */
+        .switch-label {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            font-weight: 600;
+            pointer-events: none;
+            width: 60px;
+            text-align: center;
+            transition: color 0.3s;
+        }
+        .switch-label-left {
+            left: 0;
+            color: #374151; /* 默认选中：深灰色（原界面标题色） */
+        }
+        .switch-label-right {
+            right: 0;
+            color: #9ca3af; /* 默认未选中：浅灰色（原界面辅助色） */
+        }
+        /* 切换后，仅改变文字颜色区分状态 */
+        input:checked ~ .switch-label-left {
+            color: #9ca3af;
+        }
+        input:checked ~ .switch-label-right {
+            color: #374151;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useRef } = React;
+
+        // 工具函数
+        const createSymbol = (symbol = "", note = "") => ({ symbol, note });
+        const normalizeData = (data) => {
+            if (!data || !Array.isArray(data) || data.length === 0) return [createSymbol()];
+            if (data[0] && typeof data[0] === 'object' && !Array.isArray(data[0])) {
+                return data.map(item => ({ symbol: item.symbol || '', note: item.note || '' }));
+            }
+            if (Array.isArray(data[0])) {
+                const flat = data.flat().filter(item => item);
+                return flat.length > 0 ? flat.map(item => ({ symbol: item.symbol || '', note: item.note || '' })) : [createSymbol()];
+            }
+            return [createSymbol()];
+        };
+
+        // 单元格组件
+        const Cell = ({ data, onChange, onRemove, canRemove }) => {
+            return (
+                <div className="border border-gray-300 p-2 flex flex-col gap-1 bg-white h-full group hover:bg-blue-50 transition-colors relative min-h-16">
+                    <input
+                        type="text"
+                        value={data.symbol}
+                        onChange={(e) => onChange('symbol', e.target.value)}
+                        className="w-full text-base font-bold border-b border-gray-100 outline-none px-1 py-0.5 bg-transparent"
+                        placeholder="symbol"
+                    />
+                    <input
+                        type="text"
+                        value={data.note}
+                        onChange={(e) => onChange('note', e.target.value)}
+                        className="w-full text-xs text-gray-400 outline-none px-1 py-0.5 bg-transparent"
+                        placeholder="note"
+                    />
+                    {canRemove && (
+                        <button
+                            onClick={onRemove}
+                            className="absolute -top-0 -right-0 bg-red-500 text-white w-4 h-4 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-xs shadow-lg hover:bg-red-600 z-10"
+                        >×</button>
+                    )}
+                </div>
+            );
+        };
+
+        // 模块编辑器组件
+        const SectionEditor = ({ title, data, onDataChange }) => {
+            const handleCellChange = (index, field, value) => {
+                const newData = [...data];
+                newData[index] = { ...newData[index], [field]: value };
+                onDataChange(newData);
+            };
+            const addCell = () => onDataChange([...data, createSymbol()]);
+            const removeCell = (index) => {
+                if (data.length <= 1) return;
+                onDataChange(data.filter((_, i) => i !== index));
+            };
+            const rows = [];
+            for (let i = 0; i < data.length; i += 4) rows.push(data.slice(i, i + 4));
+
+            return (
+                <div className="mb-8 bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-lg font-bold text-gray-800 border-l-4 border-blue-500 pl-3">{title}</h3>
+                        <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">Cells: {data.length}</span>
+                    </div>
+                    <div className="border border-gray-300 rounded overflow-hidden">
+                        {rows.map((row, rowIdx) => (
+                            <div key={rowIdx} className="grid grid-cols-4 border-b border-gray-300 last:border-b-0">
+                                {row.map((cell, colIdx) => {
+                                    const idx = rowIdx * 4 + colIdx;
+                                    return (
+                                        <div key={idx} className="border-r border-gray-300 last:border-r-0">
+                                            <Cell data={cell} onChange={(f,v)=>handleCellChange(idx,f,v)} onRemove={()=>removeCell(idx)} canRemove={data.length>1} />
+                                        </div>
+                                    );
+                                })}
+                                {row.length < 4 && Array(4-row.length).fill(null).map((_,i)=>(
+                                    <div key={`e${i}`} className="border-r border-gray-300 last:border-r-0 bg-gray-50 min-h-16"></div>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                    <button onClick={addCell} className="mt-3 w-full py-2 bg-gray-50 hover:bg-gray-100 text-gray-600 text-sm border border-dashed border-gray-300 rounded">+ 添加一格</button>
+                </div>
+            );
+        };
+
+        // 主组件
+        function PinyinSimpleEditor() {
+            const [schemeName, setSchemeName] = useState("UNNAMED");
+            const [editorMode, setEditorMode] = useState('toufuwei'); // 头腹尾/韵母
+            const [shengMu, setShengMu] = useState([createSymbol()]);
+            const [yunTou, setYunTou] = useState([createSymbol()]);
+            const [yunFu, setYunFu] = useState([createSymbol()]);
+            const [yunWei, setYunWei] = useState([createSymbol()]);
+            const [yunMu, setYunMu] = useState([createSymbol()]);
+            const [chengYinJieBiYin, setChengYinJieBiYin] = useState([createSymbol()]);
+            const [shengDiao, setShengDiao] = useState([createSymbol()]);
+            const fileInputRef = useRef(null);
+
+            // 切换模式
+            const handleModeChange = (e) => setEditorMode(e.target.checked ? 'yunmu' : 'toufuwei');
+
+            // 导入
+            const handleImportClick = () => fileInputRef.current.click();
+            const handleFileChange = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    try {
+                        const json = JSON.parse(ev.target.result);
+                        if (json.scheme_name) setSchemeName(json.scheme_name);
+                        if (editorMode === 'toufuwei') {
+                            if (json.sheng_mu) setShengMu(normalizeData(json.sheng_mu));
+                            if (json.yun_tou) setYunTou(normalizeData(json.yun_tou));
+                            if (json.yun_fu) setYunFu(normalizeData(json.yun_fu));
+                            if (json.yun_wei) setYunWei(normalizeData(json.yun_wei));
+                        } else {
+                            if (json.sheng_mu) setShengMu(normalizeData(json.sheng_mu));
+                            if (json.yun_mu) setYunMu(normalizeData(json.yun_mu));
+                        }
+                        if (json.cheng_yin_jie_bi_yin) setChengYinJieBiYin(normalizeData(json.cheng_yin_jie_bi_yin));
+                        if (json.sheng_diao) setShengDiao(normalizeData(json.sheng_diao));
+                        e.target.value = '';
+                        alert("导入成功！");
+                    } catch (err) {
+                        console.error(err);
+                        alert("JSON解析失败");
+                    }
+                };
+                reader.readAsText(file);
+            };
+
+            // 导出
+            const downloadJson = () => {
+                const exportData = {
+                    scheme_name: schemeName,
+                    sheng_mu: shengMu,
+                    cheng_yin_jie_bi_yin: chengYinJieBiYin,
+                    sheng_diao: shengDiao
+                };
+                if (editorMode === 'toufuwei') {
+                    exportData.yun_tou = yunTou;
+                    exportData.yun_fu = yunFu;
+                    exportData.yun_wei = yunWei;
+                } else {
+                    exportData.yun_mu = yunMu;
+                }
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+                const a = document.createElement('a');
+                a.href = dataStr;
+                a.download = `${schemeName.replace(/\s+/g,'_')||'scheme'}.json`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            };
+
+            return (
+                <div className="min-h-screen p-4 md:p-8 font-sans text-gray-900 pb-32">
+                    <div className="max-w-5xl mx-auto">
+                        {/* 头部 */}
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-6 border-b border-gray-300 gap-4">
+                            <div className="flex-1 w-full">
+                                <label className="block text-xs font-bold text-gray-400 uppercase mb-1">Scheme Name</label>
+                                <input 
+                                    type="text" 
+                                    value={schemeName}
+                                    onChange={(e)=>setSchemeName(e.target.value)}
+                                    className="text-3xl font-extrabold text-gray-800 bg-transparent border-b-2 border-transparent hover:border-gray-300 focus:border-blue-500 outline-none w-full py-1"
+                                />
+                            </div>
+                            {/* 🌟 最终版开关：双标签永久显示 + 文字颜色区分状态 */}
+                            <div className="flex items-center gap-3 shrink-0">
+                                <label className="switch-toggle">
+                                    <input type="checkbox" checked={editorMode==='yunmu'} onChange={handleModeChange} />
+                                    <span className="switch-slider"></span>
+                                    <span className="switch-label switch-label-left">头腹尾</span>
+                                    <span className="switch-label switch-label-right">韵母</span>
+                                </label>
+                                {/* 导入导出按钮 */}
+                                <div className="flex gap-3">
+                                    <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".json" />
+                                    <button onClick={handleImportClick} className="px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 text-sm font-bold rounded">导入 JSON</button>
+                                    <button onClick={downloadJson} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded">导出 JSON</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 编辑区域 */}
+                        <div className="space-y-6">
+                            <SectionEditor title="声母 (sheng_mu)" data={shengMu} onDataChange={setShengMu} />
+                            {editorMode === 'toufuwei' ? (
+                                <>
+                                    <SectionEditor title="韵头 (yun_tou)" data={yunTou} onDataChange={setYunTou} />
+                                    <SectionEditor title="韵腹 (yun_fu)" data={yunFu} onDataChange={setYunFu} />
+                                    <SectionEditor title="韵尾 (yun_wei)" data={yunWei} onDataChange={setYunWei} />
+                                </>
+                            ) : (
+                                <SectionEditor title="韵母 (yun_mu)" data={yunMu} onDataChange={setYunMu} />
+                            )}
+                            <SectionEditor title="成音节鼻音 (cheng_yin_jie_bi_yin)" data={chengYinJieBiYin} onDataChange={setChengYinJieBiYin} />
+                            <SectionEditor title="声调 (sheng_diao)" data={shengDiao} onDataChange={setShengDiao} />
+                        </div>
+
+                        {/* 数据预览 */}
+                        <div className="mt-12 p-6 bg-slate-800 text-slate-200 rounded-xl shadow-inner">
+                            <p className="font-bold text-slate-400 uppercase text-xs mb-4">实时数据预览 (JSON)</p>
+                            <pre className="font-mono text-xs overflow-auto max-h-64 bg-slate-900 p-4 rounded border border-slate-700">
+{JSON.stringify(editorMode==='toufuwei'?{scheme_name:schemeName,sheng_mu:shengMu,yun_tou:yunTou,yun_fu:yunFu,yun_wei:yunWei,cheng_yin_jie_bi_yin:chengYinJieBiYin,sheng_diao:shengDiao}:{scheme_name:schemeName,sheng_mu:shengMu,yun_mu:yunMu,cheng_yin_jie_bi_yin:chengYinJieBiYin,sheng_diao:shengDiao},null,2)}
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<PinyinSimpleEditor />);
+    </script>
+</body>
+</html>

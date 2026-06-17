@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rich Text Table Extractor</title>
+    
+    <script src="./libs/tailwindcss.js"></script>
+    <script src="./libs/react.production.min.js"></script>
+    <script src="./libs/react-dom.production.min.js"></script>
+    <script src="./libs/babel.min.js"></script>
+
+    <style>
+        html, body, #root {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body { 
+            background-color: #f3f4f6; 
+            zoom: 0.85;
+        }
+        
+        .rich-editor {
+            overflow-y: auto;
+            word-wrap: break-word;
+        }
+        .rich-editor:empty:before {
+            content: attr(data-placeholder);
+            color: #d1d5db;
+            pointer-events: none;
+            display: block;
+        }
+        
+        .rich-editor h1 { font-size: 2em; font-weight: bold; margin: 0.67em 0; }
+        .rich-editor h2 { font-size: 1.5em; font-weight: bold; margin: 0.83em 0; }
+        .rich-editor h3 { font-size: 1.17em; font-weight: bold; margin: 1em 0; }
+        .rich-editor p { margin: 1em 0; }
+        .rich-editor ul { list-style-type: disc; margin: 1em 0; padding-left: 40px; }
+        .rich-editor ol { list-style-type: decimal; margin: 1em 0; padding-left: 40px; }
+        .rich-editor a { color: #2563eb; text-decoration: underline; }
+        .rich-editor blockquote { border-left: 4px solid #e5e7eb; padding-left: 1em; margin: 1em 0; color: #4b5563; }
+        .rich-editor img { max-width: 100%; height: auto; }
+        
+        .rich-editor table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.9em; }
+        .rich-editor th, .rich-editor td { border: 1px solid #d1d5db; padding: 6px 8px; min-width: 30px; }
+        .rich-editor pre { background: #f3f4f6; padding: 1em; border-radius: 4px; overflow-x: auto; }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .horizontal-scroll::-webkit-scrollbar { height: 6px; }
+        .horizontal-scroll::-webkit-scrollbar-thumb { background: #9ca3af; border-radius: 3px; }
+        
+        .phonology-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .phonology-table th {
+            background: #f9fafb;
+            font-weight: bold;
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 2px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .phonology-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .phonology-table td.initial-label {
+            background: #f9fafb;
+            border-right: 2px solid #e5e7eb;
+            width: 80px;
+            text-align: center;
+            color: #374151;
+        }
+        
+        .phonology-table tr:hover td {
+            background: #f3f4f6;
+        }
+        
+        .phonology-table tr:hover td.initial-label {
+            background: #e5e7eb;
+        }
+
+        .symbol-input {
+            width: 100%;
+            padding: 4px 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        .symbol-input:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.1);
+        }
+
+        .tone-input {
+            min-width: 60px;
+            padding: 3px 6px;
+            border: 1px solid #d1d5db;
+            border-radius: 3px;
+            font-size: 13px;
+            outline: none;
+            transition: all 0.2s;
+            background: white;
+            font-weight: 500;
+            color: #374151;
+            text-align: center;
+        }
+        
+        .tone-input:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.1);
+        }
+
+        .character-input {
+            min-width: 360px;
+            padding: 3px 6px;
+            border: 1px solid #d1d5db;
+            border-radius: 3px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+            background: white;
+            color: #374151;
+        }
+        
+        .character-input:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.1);
+        }
+
+        .initial-ipa-input {
+            width: 100%;
+            padding: 4px 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+            background: white;
+            font-weight: bold;
+            text-align: center;
+            color: #374151;
+        }
+        
+        .initial-ipa-input:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.1);
+        }
+
+        .left-panel {
+            background: #f9fafb;
+            border-right: 2px solid #e5e7eb;
+            width: 400px;
+            min-width: 400px;
+            max-width: 400px;
+        }
+
+        .panel-input {
+            padding: 3px 6px;
+            border: 1px solid #d1d5db;
+            border-radius: 3px;
+            font-size: 13px;
+            outline: none;
+            transition: all 0.2s;
+            background: white;
+            min-width: 0;
+        }
+        
+        .panel-input:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.1);
+        }
+
+        .panel-content {
+            width: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .delete-button-placeholder {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .data-item-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+        }
+
+        .rhyme-name-input {
+            padding: 3px 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 3px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+            background: white;
+            font-weight: 600;
+            color: #2563eb;
+            min-width: 60px;
+        }
+        
+        .rhyme-name-input:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.1);
+        }
+
+        .symbol-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .symbol-input-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .symbol-input-label {
+            font-size: 11px;
+            color: #6b7280;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .cell-container {
+            position: relative;
+        }
+
+        .add-item-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #2563eb;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 8px;
+        }
+
+        .add-item-btn:hover {
+            background: #dbeafe;
+            border-color: #93c5fd;
+        }
+
+        .delete-item-btn {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            border: none;
+        }
+
+        .delete-item-btn:hover svg {
+            transform: scale(1.2);
+        }
+
+        .delete-item-btn svg {
+            width: 14px;
+            height: 14px;
+            color: #dc2626;
+            transition: transform 0.2s;
+        }
+
+        .combination-text {
+            color: #374151;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 2px 0;
+            display: block;
+        }
+
+        .rhyme-button-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .rhyme-delete-btn {
+            position: absolute;
+            top: -2px;
+            right: -6px;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.2s;
+        }
+
+        .rhyme-delete-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .rhyme-delete-btn svg {
+            width: 14px;
+            height: 14px;
+            color: #dc2626;
+        }
+
+        .add-rhyme-btn {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #d1d5db;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #9ca3af;
+        }
+
+        .add-rhyme-btn:hover {
+            border-color: #60a5fa;
+            color: #60a5fa;
+            background: #eff6ff;
+        }
+
+        .row-action-cell {
+            width: 36px;
+            min-width: 36px;
+            max-width: 36px;
+            padding: 0 !important;
+            background: #f9fafb;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        .row-action-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 80px;
+        }
+
+        .row-action-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .row-action-btn.delete-row {
+            background: #fef2f2;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .row-action-btn.delete-row:hover {
+            background: #fee2e2;
+        }
+
+        .row-action-btn.delete-row svg {
+            width: 14px;
+            height: 14px;
+            color: #dc2626;
+        }
+
+        .row-action-btn.add-row {
+            background: #f0fdf4;
+        }
+
+        .row-action-btn.add-row:hover {
+            background: #dcfce7;
+        }
+
+        .row-action-btn.add-row svg {
+            width: 14px;
+            height: 14px;
+            color: #16a34a;
+        }
+
+        .row-action-header {
+            width: 36px;
+            min-width: 36px;
+            max-width: 36px;
+            background: #f9fafb;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        .hidden-file-input {
+            display: none;
+        }
+
+        .mode-switch {
+            display: flex;
+            background: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 2px;
+            gap: 2px;
+        }
+
+        .mode-switch-option {
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #6b7280;
+            background: transparent;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .mode-switch-option:hover {
+            color: #374151;
+        }
+
+        .mode-switch-option.active {
+            background: white;
+            color: #2563eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .initial-note-textarea {
+            width: 100%;
+            min-height: 60px;
+            padding: 6px 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 13px;
+            outline: none;
+            transition: all 0.2s;
+            background: white;
+            color: #374151;
+            resize: vertical;
+            font-family: inherit;
+            line-height: 1.4;
+        }
+        
+        .initial-note-textarea:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.1);
+        }
+
+        .note-textarea {
+            width: 100%;
+            min-height: 50px;
+            padding: 6px 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 3px;
+            font-size: 13px;
+            outline: none;
+            transition: all 0.2s;
+            background: white;
+            color: #374151;
+            resize: vertical;
+            font-family: inherit;
+            line-height: 1.4;
+        }
+        
+        .note-textarea:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useRef, useMemo, useEffect } = React;
+
+        function RichEditor() {
+            const [docName, setDocName] = useState("UNTITLED_DOC");
+            const editorRef = useRef(null);
+            const [charCount, setCharCount] = useState(0);
+            const fileInputRef = useRef(null);
+            
+            const [extractionResult, setExtractionResult] = useState(null); 
+            const [isProcessing, setIsProcessing] = useState(false);
+
+            const [dataMode, setDataMode] = useState('古音小镜');
+
+            const [viewMode, setViewMode] = useState('A'); 
+            const [currentPage, setCurrentPage] = useState('editor'); 
+            const [activeRhymeIndex, setActiveRhymeIndex] = useState(0);
+
+            const [generalSymbols, setGeneralSymbols] = useState({});
+            const [specificSymbols, setSpecificSymbols] = useState({});
+            const [rhymeInputs, setRhymeInputs] = useState({});
+            const [globalToneRows, setGlobalToneRows] = useState([{ id: Date.now(), tone: '', value: '' }]);
+
+            const [cellDataItems, setCellDataItems] = useState({});
+
+            const [rhymeLabels, setRhymeLabels] = useState({});
+            const [initialLabels, setInitialLabels] = useState({});
+
+            const [organizerRhymes, setOrganizerRhymes] = useState(null);
+            const [organizerInitials, setOrganizerInitials] = useState(null);
+            const [isOrganizerInitialized, setIsOrganizerInitialized] = useState(false);
+
+            // 新增的note状态
+            const [rhymeNotes, setRhymeNotes] = useState({});
+            const [globalToneNote, setGlobalToneNote] = useState('');
+            const [initialNotes, setInitialNotes] = useState({});
+
+            useEffect(() => {
+                const handleBeforeUnload = (e) => {
+                    if (extractionResult || isOrganizerInitialized || charCount > 0) {
+                        e.preventDefault();
+                        e.returnValue = '';
+                        return '';
+                    }
+                };
+
+                window.addEventListener('beforeunload', handleBeforeUnload);
+
+                return () => {
+                    window.removeEventListener('beforeunload', handleBeforeUnload);
+                };
+            }, [extractionResult, isOrganizerInitialized, charCount]);
+
+            const allInitials = useMemo(() => {
+                if (!extractionResult?.modeA) return [];
+                const initialsSet = new Set();
+                extractionResult.modeA.forEach(rhymeGroup => {
+                    rhymeGroup.内容.forEach(item => {
+                        if (item.声母 !== undefined && item.声母 !== null) {
+                            initialsSet.add(item.声母);
+                        }
+                    });
+                });
+                return Array.from(initialsSet);
+            }, [extractionResult]);
+
+            const handleInput = () => {
+                if (editorRef.current) {
+                    setCharCount(editorRef.current.innerText.length);
+                }
+            };
+
+            const getTimestamp = () => {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                return `${year}${month}${day}_${hours}${minutes}${seconds}`;
+            };
+
+            const handleSaveData = () => {
+                const dataToSave = {
+                    version: "1.0",
+                    savedAt: new Date().toISOString(),
+                    docName: docName,
+                    dataMode: dataMode,
+                    extractionResult: extractionResult,
+                    viewMode: viewMode,
+                    activeRhymeIndex: activeRhymeIndex,
+                    generalSymbols: generalSymbols,
+                    specificSymbols: specificSymbols,
+                    rhymeInputs: rhymeInputs,
+                    globalToneRows: globalToneRows,
+                    cellDataItems: cellDataItems,
+                    rhymeLabels: rhymeLabels,
+                    initialLabels: initialLabels,
+                    organizerRhymes: organizerRhymes,
+                    organizerInitials: organizerInitials,
+                    isOrganizerInitialized: isOrganizerInitialized,
+                    rhymeNotes: rhymeNotes,
+                    globalToneNote: globalToneNote,
+                    initialNotes: initialNotes
+                };
+
+                const jsonString = JSON.stringify(dataToSave, null, 2);
+                const blob = new Blob([jsonString], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${docName}_${getTimestamp()}.json`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                
+                alert('数据已保存！');
+            };
+
+            const handleLoadData = (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const loadedData = JSON.parse(e.target.result);
+                        
+                        if (loadedData.docName !== undefined) setDocName(loadedData.docName);
+                        if (loadedData.dataMode !== undefined) setDataMode(loadedData.dataMode);
+                        if (loadedData.extractionResult !== undefined) setExtractionResult(loadedData.extractionResult);
+                        if (loadedData.viewMode !== undefined) setViewMode(loadedData.viewMode);
+                        if (loadedData.activeRhymeIndex !== undefined) setActiveRhymeIndex(loadedData.activeRhymeIndex);
+                        if (loadedData.generalSymbols !== undefined) setGeneralSymbols(loadedData.generalSymbols);
+                        if (loadedData.specificSymbols !== undefined) setSpecificSymbols(loadedData.specificSymbols);
+                        if (loadedData.rhymeInputs !== undefined) setRhymeInputs(loadedData.rhymeInputs);
+                        if (loadedData.globalToneRows !== undefined) setGlobalToneRows(loadedData.globalToneRows);
+                        if (loadedData.cellDataItems !== undefined) setCellDataItems(loadedData.cellDataItems);
+                        if (loadedData.rhymeLabels !== undefined) setRhymeLabels(loadedData.rhymeLabels);
+                        if (loadedData.initialLabels !== undefined) setInitialLabels(loadedData.initialLabels);
+                        if (loadedData.organizerRhymes !== undefined) setOrganizerRhymes(loadedData.organizerRhymes);
+                        if (loadedData.organizerInitials !== undefined) setOrganizerInitials(loadedData.organizerInitials);
+                        if (loadedData.isOrganizerInitialized !== undefined) setIsOrganizerInitialized(loadedData.isOrganizerInitialized);
+                        if (loadedData.rhymeNotes !== undefined) setRhymeNotes(loadedData.rhymeNotes);
+                        if (loadedData.globalToneNote !== undefined) setGlobalToneNote(loadedData.globalToneNote);
+                        if (loadedData.initialNotes !== undefined) setInitialNotes(loadedData.initialNotes);
+                        
+                        alert('数据已成功加载！');
+                    } catch (error) {
+                        alert('加载数据失败：文件格式不正确');
+                        console.error('Load error:', error);
+                    }
+                };
+                reader.readAsText(file);
+                
+                event.target.value = '';
+            };
+
+            const triggerFileInput = () => {
+                fileInputRef.current?.click();
+            };
+
+            const escapeCSVField = (field) => {
+                const fieldStr = String(field);
+                if (fieldStr.includes(',') || fieldStr.includes('"') || fieldStr.includes('\n') || fieldStr.includes('\r')) {
+                    return `"${fieldStr.replace(/"/g, '""')}"`;
+                }
+                return fieldStr;
+            };
+
+            const handleExportCSV = () => {
+                const rows = [];
+                
+                rows.push(['Syllable/Combination', '汉字']);
+                
+                const rhymes = organizerRhymes || [];
+                const initials = organizerInitials || [];
+                
+                rhymes.forEach(rhymeItem => {
+                    initials.forEach(initialItem => {
+                        const cellKey = `${rhymeItem.id}-${initialItem.id}`;
+                        const items = cellDataItems[cellKey] || [];
+                        
+                        items.forEach(item => {
+                            const combination = calculateCombination(initialItem, rhymeItem, item.tone);
+                            const characters = item.characters || '';
+                            
+                            if (combination || characters) {
+                                rows.push([combination, characters]);
+                            }
+                        });
+                    });
+                });
+                
+                const csvContent = rows.map(row => {
+                    return row.map(cell => escapeCSVField(cell)).join(',');
+                }).join('\r\n');
+                
+                const BOM = '\uFEFF';
+                const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${docName}_同音字表_${getTimestamp()}.csv`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                
+                const dataCount = rows.length - 1;
+                alert(`已导出 ${dataCount} 条记录（不含表头）`);
+            };
+
+            const initializeOrganizer = () => {
+                if (!isOrganizerInitialized) {
+                    if (extractionResult?.modeA && extractionResult.modeA.length > 0) {
+                        setOrganizerRhymes(extractionResult.modeA.map((item, idx) => ({
+                            id: Date.now() + idx,
+                            originalName: item.韵母
+                        })));
+                        const initials = extractionResult.initialsOrder || allInitials;
+                        setOrganizerInitials(initials.map((name, idx) => ({
+                            id: Date.now() + idx + 1000,
+                            originalName: name
+                        })));
+                    } else {
+                        setOrganizerRhymes([{ id: Date.now(), originalName: '' }]);
+                        setOrganizerInitials([{ id: Date.now() + 1, originalName: '' }]);
+                    }
+                    setIsOrganizerInitialized(true);
+                }
+            };
+
+            const enterOrganizer = () => {
+                initializeOrganizer();
+                setCurrentPage('organizer');
+            };
+
+            const handleReturn = () => {
+                if (editorRef.current) {
+                    editorRef.current.innerHTML = '';
+                }
+                setCharCount(0);
+                setExtractionResult(null);
+                setCurrentPage('editor');
+            };
+
+            const addRhyme = () => {
+                const newId = Date.now();
+                setOrganizerRhymes(prev => [...(prev || []), { id: newId, originalName: '' }]);
+            };
+
+            const removeRhyme = (id) => {
+                if (!organizerRhymes || organizerRhymes.length <= 1) return;
+                
+                const idx = organizerRhymes.findIndex(r => r.id === id);
+                const rhymeToRemove = organizerRhymes[idx];
+                
+                if (rhymeToRemove) {
+                    const rhymeId = rhymeToRemove.id;
+                    setCellDataItems(prev => {
+                        const newItems = { ...prev };
+                        Object.keys(newItems).forEach(key => {
+                            if (key.startsWith(`${rhymeId}-`)) {
+                                delete newItems[key];
+                            }
+                        });
+                        return newItems;
+                    });
+                    setRhymeInputs(prev => {
+                        const newInputs = { ...prev };
+                        delete newInputs[rhymeId];
+                        return newInputs;
+                    });
+                    setSpecificSymbols(prev => {
+                        const newSymbols = { ...prev };
+                        Object.keys(newSymbols).forEach(key => {
+                            if (key.endsWith(`-${rhymeId}`)) {
+                                delete newSymbols[key];
+                            }
+                        });
+                        return newSymbols;
+                    });
+                    setRhymeLabels(prev => {
+                        const newLabels = { ...prev };
+                        delete newLabels[rhymeId];
+                        return newLabels;
+                    });
+                    setRhymeNotes(prev => {
+                        const newNotes = { ...prev };
+                        delete newNotes[rhymeId];
+                        return newNotes;
+                    });
+                }
+
+                setOrganizerRhymes(prev => prev.filter(r => r.id !== id));
+                
+                if (activeRhymeIndex >= idx && activeRhymeIndex > 0) {
+                    setActiveRhymeIndex(prev => prev - 1);
+                }
+            };
+
+            const addInitialRow = (afterId) => {
+                const newId = Date.now();
+                setOrganizerInitials(prev => {
+                    const idx = prev.findIndex(i => i.id === afterId);
+                    const newInitials = [...prev];
+                    newInitials.splice(idx + 1, 0, { id: newId, originalName: '' });
+                    return newInitials;
+                });
+            };
+
+            const removeInitialRow = (id) => {
+                if (!organizerInitials || organizerInitials.length <= 1) return;
+                
+                const initialToRemove = organizerInitials.find(i => i.id === id);
+                
+                if (initialToRemove) {
+                    const initialId = initialToRemove.id;
+                    setCellDataItems(prev => {
+                        const newItems = { ...prev };
+                        Object.keys(newItems).forEach(key => {
+                            if (key.endsWith(`-${initialId}`)) {
+                                delete newItems[key];
+                            }
+                        });
+                        return newItems;
+                    });
+                    setGeneralSymbols(prev => {
+                        const newSymbols = { ...prev };
+                        delete newSymbols[initialId];
+                        return newSymbols;
+                    });
+                    setSpecificSymbols(prev => {
+                        const newSymbols = { ...prev };
+                        Object.keys(newSymbols).forEach(key => {
+                            if (key.startsWith(`${initialId}-`)) {
+                                delete newSymbols[key];
+                            }
+                        });
+                        return newSymbols;
+                    });
+                    setInitialLabels(prev => {
+                        const newLabels = { ...prev };
+                        delete newLabels[initialId];
+                        return newLabels;
+                    });
+                    setInitialNotes(prev => {
+                        const newNotes = { ...prev };
+                        delete newNotes[initialId];
+                        return newNotes;
+                    });
+                }
+
+                setOrganizerInitials(prev => prev.filter(i => i.id !== id));
+            };
+
+            const handleGeneralSymbolChange = (initialId, value) => {
+                setGeneralSymbols(prev => ({
+                    ...prev,
+                    [initialId]: value
+                }));
+            };
+
+            const handleSpecificSymbolChange = (initialId, rhymeId, value) => {
+                const key = `${initialId}-${rhymeId}`;
+                setSpecificSymbols(prev => ({
+                    ...prev,
+                    [key]: value
+                }));
+            };
+
+            const handleInitialLabelChange = (initialId, value) => {
+                setInitialLabels(prev => ({
+                    ...prev,
+                    [initialId]: value
+                }));
+            };
+
+            const handleInitialNoteChange = (initialId, value) => {
+                setInitialNotes(prev => ({
+                    ...prev,
+                    [initialId]: value
+                }));
+            };
+
+            const getDisplayInitial = (initialItem) => {
+                return initialLabels[initialItem.id] !== undefined 
+                    ? initialLabels[initialItem.id] 
+                    : initialItem.originalName;
+            };
+
+            const handleRhymeInputChange = (rhymeId, value) => {
+                setRhymeInputs(prev => ({
+                    ...prev,
+                    [rhymeId]: value
+                }));
+            };
+
+            const handleRhymeLabelChange = (id, newValue) => {
+                setRhymeLabels(prev => ({
+                    ...prev,
+                    [id]: newValue
+                }));
+            };
+
+            const handleRhymeNoteChange = (id, newValue) => {
+                setRhymeNotes(prev => ({
+                    ...prev,
+                    [id]: newValue
+                }));
+            };
+
+            const getDisplayRhyme = (rhymeItem) => {
+                return rhymeLabels[rhymeItem.id] !== undefined ? rhymeLabels[rhymeItem.id] : rhymeItem.originalName;
+            };
+
+            const addGlobalToneRow = () => {
+                setGlobalToneRows(prev => [...prev, { id: Date.now(), tone: '', value: '' }]);
+            };
+
+            const updateGlobalToneRow = (id, field, value) => {
+                setGlobalToneRows(prev => prev.map(row => 
+                    row.id === id ? { ...row, [field]: value } : row
+                ));
+            };
+
+            const removeGlobalToneRow = (id) => {
+                if (globalToneRows.length > 1) {
+                    setGlobalToneRows(prev => prev.filter(row => row.id !== id));
+                }
+            };
+
+            const addCellDataItem = (cellKey) => {
+                setCellDataItems(prev => {
+                    const currentItems = prev[cellKey] || [];
+                    return {
+                        ...prev,
+                        [cellKey]: [...currentItems, { id: Date.now() + Math.random(), tone: '', characters: '' }]
+                    };
+                });
+            };
+
+            const removeCellDataItem = (cellKey, itemId) => {
+                setCellDataItems(prev => {
+                    const currentItems = prev[cellKey] || [];
+                    const newItems = currentItems.filter(item => item.id !== itemId);
+                    return {
+                        ...prev,
+                        [cellKey]: newItems
+                    };
+                });
+            };
+
+            const updateCellDataItem = (cellKey, itemId, field, value) => {
+                setCellDataItems(prev => {
+                    const currentItems = prev[cellKey] || [];
+                    const newItems = currentItems.map(item =>
+                        item.id === itemId ? { ...item, [field]: value } : item
+                    );
+                    return {
+                        ...prev,
+                        [cellKey]: newItems
+                    };
+                });
+            };
+
+            const calculateCombination = (initialItem, rhymeItem, itemTone) => {
+                const specificKey = `${initialItem.id}-${rhymeItem.id}`;
+                
+                let initialSymbol = specificSymbols[specificKey] || generalSymbols[initialItem.id] || '';
+                let rhymeSymbol = rhymeInputs[rhymeItem.id] || '';
+                
+                if (initialSymbol) {
+                    const replaceMatch = initialSymbol.match(/^-(.+?)\+(.+)$/);
+                    if (replaceMatch) {
+                        const [, strA, strB] = replaceMatch;
+                        if (rhymeSymbol.startsWith(strA)) {
+                            rhymeSymbol = strB + rhymeSymbol.slice(strA.length);
+                        }
+                        initialSymbol = '';
+                    }
+                }
+                
+                const toneRow = globalToneRows.find(row => row.tone === itemTone);
+                const toneSymbol = toneRow ? toneRow.value : '';
+                
+                return initialSymbol + rhymeSymbol + toneSymbol;
+            };
+
+            const parseDataCell = (htmlContent) => {
+                if (!htmlContent) return [];
+                
+                const results = [];
+                const parts = htmlContent.split(/<br[^>]*>/gi);
+                
+                for (let part of parts) {
+                    const trimmedPart = part.trim();
+                    if (!trimmedPart) continue;
+                    
+                    const partDiv = document.createElement('div');
+                    partDiv.innerHTML = trimmedPart;
+                    
+                    let tone = '';
+                    let characters = '';
+                    
+                    const colorSpans = partDiv.querySelectorAll('span[style*="color"]');
+                    
+                    if (colorSpans.length > 0) {
+                        const spanText = colorSpans[0].innerText || colorSpans[0].textContent;
+                        tone = spanText.replace(/\u00A0/g, ' ').trim();
+                        
+                        colorSpans.forEach(span => span.remove());
+                        characters = (partDiv.innerText || partDiv.textContent)
+                            .replace(/\u00A0/g, '')
+                            .replace(/\s+/g, '')
+                            .trim();
+                    } else {
+                        characters = (partDiv.innerText || partDiv.textContent)
+                            .replace(/\u00A0/g, '')
+                            .replace(/\s+/g, '')
+                            .trim();
+                    }
+                    
+                    if (tone || characters) {
+                        results.push({ id: Date.now() + Math.random(), tone, characters });
+                    }
+                }
+                
+                return results;
+            };
+
+            useEffect(() => {
+                if (extractionResult?.modeA && currentPage === 'organizer' && organizerRhymes && organizerInitials) {
+                    const currentRhymeItem = organizerRhymes[activeRhymeIndex];
+                    if (!currentRhymeItem) return;
+
+                    const originalRhyme = currentRhymeItem.originalName;
+                    
+                    const rhymeData = extractionResult.modeA.find(r => r.韵母 === originalRhyme);
+                    if (!rhymeData) return;
+
+                    organizerInitials.forEach(initialItem => {
+                        const cellKey = `${currentRhymeItem.id}-${initialItem.id}`;
+                        
+                        if (!cellDataItems[cellKey]) {
+                            const item = rhymeData.内容.find(i => i.声母 === initialItem.originalName);
+                            if (item && item.数据) {
+                                const parsedItems = parseDataCell(item.数据);
+                                if (parsedItems.length > 0) {
+                                    setCellDataItems(prev => ({
+                                        ...prev,
+                                        [cellKey]: parsedItems
+                                    }));
+                                }
+                            }
+                        }
+                    });
+                }
+            }, [extractionResult, activeRhymeIndex, currentPage, organizerRhymes, organizerInitials]);
+
+            const processGuyinXiaojing = () => {
+                if (!editorRef.current) return;
+
+                const htmlInput = editorRef.current.innerHTML;
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlInput, 'text/html');
+                const tables = doc.querySelectorAll('table');
+
+                if (tables.length === 0) {
+                    setExtractionResult({ 
+                        modeA: [], 
+                        modeB: [], 
+                        stats: "未检测到表格 (No tables found)" 
+                    });
+                    return;
+                }
+
+                let tempResultA = [];
+                let tempResultB = [];
+                let allInitialsOrder = []; 
+
+                tables.forEach((table) => {
+                    const rawRows = [];
+                    const rows = table.querySelectorAll('tr');
+                    rows.forEach(row => {
+                        const rowData = [];
+                        const cells = row.querySelectorAll('td, th');
+                        cells.forEach(cell => {
+                            let html = cell.innerHTML.trim();
+                            rowData.push(html);
+                        });
+                        if (rowData.length > 0) rawRows.push(rowData);
+                    });
+
+                    if (rawRows.length < 2) return;
+
+                    const firstRow = rawRows[0];
+                    const targetLength = firstRow.length - 2; 
+                    const normalizedRows = [];
+                    
+                    rawRows.forEach(row => {
+                        let newRow = [];
+                        if (row.length === targetLength + 2) newRow = row.slice(2);
+                        else if (row.length === targetLength + 1) newRow = row.slice(1);
+                        else newRow = row;
+                        normalizedRows.push(newRow);
+                    });
+
+                    if (normalizedRows.length < 2) return;
+
+                    const headerRow = normalizedRows[0]; 
+                    
+                    for (let i = 1; i < headerRow.length; i++) {
+                        if (headerRow[i]) {
+                            const tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = headerRow[i];
+                            const text = tempDiv.innerText.replace(/\s+/g, ' ').trim();
+                            if (text && !allInitialsOrder.includes(text)) {
+                                allInitialsOrder.push(text);
+                            }
+                        }
+                    }
+
+                    for (let i = 1; i < normalizedRows.length; i++) {
+                        const currentRow = normalizedRows[i];
+                        if (currentRow.length === 0) continue;
+
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = currentRow[0];
+                        const rowLabel = tempDiv.innerText.replace(/\s+/g, ' ').trim();
+                        
+                        const modeAItem = { "韵母": rowLabel, "内容": [] };
+
+                        for (let j = 1; j < currentRow.length && j < headerRow.length; j++) {
+                            const cellContent = currentRow[j];
+                            if (!cellContent) continue; 
+
+                            const tempDivCol = document.createElement('div');
+                            tempDivCol.innerHTML = headerRow[j];
+                            const colLabel = tempDivCol.innerText.replace(/\s+/g, ' ').trim();
+                            if (!colLabel) continue; 
+
+                            tempResultB.push({
+                                tag: colLabel + rowLabel,
+                                content: cellContent
+                            });
+
+                            modeAItem["内容"].push({
+                                "声母": colLabel,
+                                "数据": cellContent
+                            });
+                        }
+
+                        if (modeAItem["内容"].length > 0) {
+                            tempResultA.push(modeAItem);
+                        }
+                    }
+                });
+
+                setExtractionResult({
+                    modeA: tempResultA,
+                    modeB: tempResultB,
+                    initialsOrder: allInitialsOrder, 
+                    stats: `提取完成: 模式A(${tempResultA.length}组), 模式B(${tempResultB.length}条), 声母(${allInitialsOrder.length}个)`
+                });
+                
+                setIsOrganizerInitialized(false);
+                setOrganizerRhymes(null);
+                setOrganizerInitials(null);
+                setCellDataItems({});
+                setRhymeLabels({});
+                setInitialLabels({});
+                setGeneralSymbols({});
+                setSpecificSymbols({});
+                setRhymeInputs({});
+                setActiveRhymeIndex(0);
+                setRhymeNotes({});
+                setGlobalToneNote('');
+                setInitialNotes({});
+            };
+
+            const processZiyinbiao = () => {
+                if (!editorRef.current) return;
+
+                const textInput = editorRef.current.innerText || editorRef.current.textContent;
+                const lines = textInput.split('\n').filter(line => line.trim());
+
+                if (lines.length === 0) {
+                    setExtractionResult({
+                        modeA: [],
+                        modeB: [],
+                        stats: "未检测到数据 (No data found)"
+                    });
+                    return;
+                }
+
+                const parsedData = [];
+                for (const line of lines) {
+                    const trimmedLine = line.trim();
+                    if (!trimmedLine) continue;
+
+                    const parts = trimmedLine.split(',');
+                    if (parts.length < 4) continue;
+
+                    const characters = parts[0].trim();
+                    const initial = parts[1].trim();
+                    const rhyme = parts[2].trim();
+                    const tone = parts[3].trim();
+
+                    if (characters && rhyme && tone) {
+                        parsedData.push({ characters, initial, rhyme, tone });
+                    }
+                }
+
+                if (parsedData.length === 0) {
+                    setExtractionResult({
+                        modeA: [],
+                        modeB: [],
+                        stats: "未检测到有效数据 (No valid data found)"
+                    });
+                    return;
+                }
+
+                const rhymeOrder = [];
+                const rhymeGroups = {};
+                for (const item of parsedData) {
+                    if (!rhymeGroups[item.rhyme]) {
+                        rhymeGroups[item.rhyme] = [];
+                        rhymeOrder.push(item.rhyme);
+                    }
+                    rhymeGroups[item.rhyme].push(item);
+                }
+
+                const allInitialsOrderSet = [];
+                for (const item of parsedData) {
+                    if (!allInitialsOrderSet.includes(item.initial)) {
+                        allInitialsOrderSet.push(item.initial);
+                    }
+                }
+
+                const tempResultA = [];
+
+                for (const rhymeName of rhymeOrder) {
+                    const rhymeItems = rhymeGroups[rhymeName];
+                    
+                    const initialOrder = [];
+                    const initialGroups = {};
+                    for (const item of rhymeItems) {
+                        if (!initialGroups.hasOwnProperty(item.initial)) {
+                            initialGroups[item.initial] = [];
+                            initialOrder.push(item.initial);
+                        }
+                        initialGroups[item.initial].push(item);
+                    }
+
+                    const rhymeObj = {
+                        "韵母": rhymeName,
+                        "内容": []
+                    };
+
+                    for (const initialName of initialOrder) {
+                        const initialItems = initialGroups[initialName];
+                        
+                        const toneOrder = [];
+                        const toneGroups = {};
+                        for (const item of initialItems) {
+                            if (!toneGroups[item.tone]) {
+                                toneGroups[item.tone] = [];
+                                toneOrder.push(item.tone);
+                            }
+                            toneGroups[item.tone].push(item.characters);
+                        }
+
+                        let dataHtml = '';
+                        for (let i = 0; i < toneOrder.length; i++) {
+                            const toneName = toneOrder[i];
+                            const charsList = toneGroups[toneName];
+                            const chars = charsList.join('');
+                            
+                            dataHtml += `<span style="margin: 0px; padding: 0px; font-size: 12px; color: rgb(170, 51, 76);">${toneName}&nbsp;</span>${chars}`;
+                            
+                            if (i < toneOrder.length - 1) {
+                                dataHtml += '<br style="margin: 0px; padding: 0px;">';
+                            }
+                        }
+
+                        rhymeObj["内容"].push({
+                            "声母": initialName,
+                            "数据": dataHtml
+                        });
+                    }
+
+                    tempResultA.push(rhymeObj);
+                }
+
+                setExtractionResult({
+                    modeA: tempResultA,
+                    modeB: [],
+                    initialsOrder: allInitialsOrderSet,
+                    stats: `提取完成: 韵母(${tempResultA.length}个), 声母(${allInitialsOrderSet.length}个, 含零声母), 总数据(${parsedData.length}条)`
+                });
+
+                setIsOrganizerInitialized(false);
+                setOrganizerRhymes(null);
+                setOrganizerInitials(null);
+                setCellDataItems({});
+                setRhymeLabels({});
+                setInitialLabels({});
+                setGeneralSymbols({});
+                setSpecificSymbols({});
+                setRhymeInputs({});
+                setActiveRhymeIndex(0);
+                setRhymeNotes({});
+                setGlobalToneNote('');
+                setInitialNotes({});
+            };
+
+            const processHtml = () => {
+                if (!editorRef.current) return;
+                setIsProcessing(true);
+
+                setTimeout(() => {
+                    if (dataMode === '古音小镜') {
+                        processGuyinXiaojing();
+                    } else if (dataMode === '字音表') {
+                        processZiyinbiao();
+                    }
+                    setIsProcessing(false);
+                }, 100);
+            };
+
+            if (currentPage === 'organizer') {
+                const rhymes = organizerRhymes || [];
+                const initials = organizerInitials || [];
+                const currentRhymeItem = rhymes[activeRhymeIndex] || { id: 0, originalName: '' };
+                
+                const displayRhyme = getDisplayRhyme(currentRhymeItem);
+
+                return (
+                    <div className="h-full flex flex-col p-2 md:p-4 font-sans text-gray-900 bg-gray-50 box-border">
+                        <input 
+                            ref={fileInputRef}
+                            type="file"
+                            accept=".json"
+                            onChange={handleLoadData}
+                            className="hidden-file-input"
+                        />
+
+                        <div className="flex items-center gap-3 border-b border-gray-300 pb-2 mb-3 shrink-0">
+                            <button 
+                                onClick={handleReturn}
+                                className="flex items-center gap-1 px-3 py-1 bg-white border border-gray-300 rounded shadow-sm hover:bg-gray-50 text-gray-700 text-sm font-medium transition-all"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                                </svg>
+                                返回
+                            </button>
+                            
+                            <button 
+                                onClick={handleSaveData}
+                                className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white rounded shadow-sm hover:bg-blue-700 text-sm font-medium transition-all"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                                </svg>
+                                保存页面
+                            </button>
+                            
+                            <button 
+                                onClick={triggerFileInput}
+                                className="flex items-center gap-1 px-3 py-1 bg-green-600 text-white rounded shadow-sm hover:bg-green-700 text-sm font-medium transition-all"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                </svg>
+                                上载页面
+                            </button>
+
+                            <button 
+                                onClick={handleExportCSV}
+                                className="flex items-center gap-1 px-3 py-1 bg-purple-600 text-white rounded shadow-sm hover:bg-purple-700 text-sm font-medium transition-all"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                下载同音字表
+                            </button>
+
+                            <h1 className="text-lg font-bold text-gray-800">音系与拼音整理</h1>
+                            <span className="ml-auto text-gray-500 text-xs font-mono">
+                                {docName} | 韵母: {rhymes.length}个 | 声母: {initials.length}个 | 声调: {globalToneRows.length}个
+                            </span>
+                        </div>
+
+                        <div className="bg-white px-3 py-2 rounded-lg shadow-sm border border-gray-200 mb-3 shrink-0">
+                            <div className="flex gap-2 overflow-x-auto horizontal-scroll items-center">
+                                {rhymes.map((item, index) => {
+                                    const buttonDisplayRhyme = getDisplayRhyme(item);
+                                    const isActive = activeRhymeIndex === index;
+                                    
+                                    return (
+                                        <div key={item.id} className="rhyme-button-wrapper">
+                                            {rhymes.length > 1 && (
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        removeRhyme(item.id);
+                                                    }}
+                                                    className="rhyme-delete-btn"
+                                                    title="删除此韵母"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                </button>
+                                            )}
+                                            <button
+                                                onClick={() => setActiveRhymeIndex(index)}
+                                                className={`
+                                                    w-14 h-10 flex items-center justify-center rounded font-bold text-sm border-2 transition-all
+                                                    ${isActive 
+                                                        ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-md' 
+                                                        : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-blue-300 hover:bg-white'}
+                                                `}
+                                            >
+                                                {buttonDisplayRhyme || <span className="text-gray-300">—</span>}
+                                            </button>
+                                        </div>
+                                    );
+                                })}
+                                <button
+                                    onClick={addRhyme}
+                                    className="add-rhyme-btn"
+                                    title="添加韵母"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="flex-1 flex gap-3 overflow-hidden">
+                            <div className="left-panel bg-white rounded-lg shadow-sm border border-gray-200 p-4 flex flex-col">
+                                <div className="panel-content">
+                                    <div className="mb-4 pb-3 border-b border-gray-200">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="font-bold text-sm text-gray-700 whitespace-nowrap">韵母IPA/RAW：</span>
+                                            <input 
+                                                type="text"
+                                                value={displayRhyme}
+                                                onChange={(e) => handleRhymeLabelChange(currentRhymeItem.id, e.target.value)}
+                                                className="rhyme-name-input flex-1"
+                                                placeholder="韵母IPA/RAW"
+                                            />
+                                        </div>
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="font-bold text-sm text-gray-700 whitespace-nowrap">韵母Symbol：</span>
+                                            <input 
+                                                type="text"
+                                                value={rhymeInputs[currentRhymeItem.id] || ''}
+                                                onChange={(e) => handleRhymeInputChange(currentRhymeItem.id, e.target.value)}
+                                                className="panel-input flex-1"
+                                                placeholder="Symbol"
+                                            />
+                                        </div>
+                                        <div className="flex flex-col gap-1">
+                                            <span className="font-bold text-sm text-gray-700 whitespace-nowrap">韵母note：</span>
+                                            <textarea 
+                                                value={rhymeNotes[currentRhymeItem.id] || ''}
+                                                onChange={(e) => handleRhymeNoteChange(currentRhymeItem.id, e.target.value)}
+                                                className="note-textarea"
+                                                placeholder="韵母备注"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-2 mb-4 pb-3 border-b border-gray-200">
+                                        <div className="text-xs text-gray-500 font-medium mb-1">全局声调设置</div>
+                                        {globalToneRows.map((row, index) => (
+                                            <div key={row.id} className="flex items-center gap-2">
+                                                <span className="text-sm text-gray-600 whitespace-nowrap">声调：</span>
+                                                <input 
+                                                    type="text"
+                                                    value={row.tone}
+                                                    onChange={(e) => updateGlobalToneRow(row.id, 'tone', e.target.value)}
+                                                    className="panel-input w-30 min-w-[60px]"
+                                                    placeholder="调值/调类"
+                                                />
+                                                <input 
+                                                    type="text"
+                                                    value={row.value}
+                                                    onChange={(e) => updateGlobalToneRow(row.id, 'value', e.target.value)}
+                                                    className="panel-input w-40 min-w-[100px]"
+                                                    placeholder="Symbol"
+                                                />
+                                                {globalToneRows.length > 1 ? (
+                                                    <button
+                                                        onClick={() => removeGlobalToneRow(row.id)}
+                                                        className="flex items-center justify-center p-0.5 rounded transition-all mr-1"
+                                                        title="删除此行"
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-2 w-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                ) : (
+                                                    <div className="delete-button-placeholder"></div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div className="flex flex-col gap-1">
+                                        <span className="font-bold text-sm text-gray-700 whitespace-nowrap">声调note：</span>
+                                        <textarea 
+                                            value={globalToneNote}
+                                            onChange={(e) => setGlobalToneNote(e.target.value)}
+                                            className="note-textarea"
+                                            placeholder="全局声调备注"
+                                        />
+                                    </div>
+                                </div>
+
+                                <button
+                                    onClick={addGlobalToneRow}
+                                    className="mt-3 w-full py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-md transition-all flex items-center justify-center gap-1"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                    添加声调行
+                                </button>
+                            </div>
+
+                            <div className="flex-1 relative bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                                <div className="absolute inset-0 overflow-auto">
+                                    <table className="phonology-table">
+                                        <thead>
+                                            <tr>
+                                                <th className="row-action-header"></th>
+                                                <th className="text-center" style={{width: '160px'}}>声母note</th>
+                                                <th className="text-center" style={{width: '140px'}}>声母Symbol</th>
+                                                <th className="text-center" style={{width: '80px'}}>声母IPA/RAW</th>
+                                                <th>韵母 {displayRhyme} 数据</th>
+                                                <th className="text-center" style={{width: '200px'}}>Syllable/Combination</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {initials.map((initialItem, idx) => {
+                                                const cellKey = `${currentRhymeItem.id}-${initialItem.id}`;
+                                                const displayInitial = getDisplayInitial(initialItem);
+                                                const specificKey = `${initialItem.id}-${currentRhymeItem.id}`;
+                                                const items = cellDataItems[cellKey] || [];
+                                                
+                                                return (
+                                                    <tr key={initialItem.id}>
+                                                        <td className="row-action-cell">
+                                                            <div className="row-action-container">
+                                                                <button
+                                                                    onClick={() => removeInitialRow(initialItem.id)}
+                                                                    className="row-action-btn delete-row"
+                                                                    title="删除此行"
+                                                                    disabled={initials.length <= 1}
+                                                                    style={{ opacity: initials.length <= 1 ? 0.3 : 1 }}
+                                                                >
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                                    </svg>
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => addInitialRow(initialItem.id)}
+                                                                    className="row-action-btn add-row"
+                                                                    title="在下方添加新行"
+                                                                >
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2" style={{background: '#f9fafb', borderRight: '2px solid #e5e7eb'}}>
+                                                            <textarea 
+                                                                value={initialNotes[initialItem.id] || ''}
+                                                                onChange={(e) => handleInitialNoteChange(initialItem.id, e.target.value)}
+                                                                className="initial-note-textarea"
+                                                                placeholder="声母备注"
+                                                            />
+                                                        </td>
+                                                        <td className="p-2" style={{background: '#f9fafb', borderRight: '2px solid #e5e7eb'}}>
+                                                            <div className="symbol-input-group">
+                                                                <div className="symbol-input-item">
+                                                                    <div className="symbol-input-label">General</div>
+                                                                    <input 
+                                                                        type="text"
+                                                                        value={generalSymbols[initialItem.id] || ''}
+                                                                        onChange={(e) => handleGeneralSymbolChange(initialItem.id, e.target.value)}
+                                                                        className="symbol-input"
+                                                                        placeholder="General Symbol"
+                                                                    />
+                                                                </div>
+                                                                <div className="symbol-input-item">
+                                                                    <div className="symbol-input-label">搭配当前韵母</div>
+                                                                    <input 
+                                                                        type="text"
+                                                                        value={specificSymbols[specificKey] || ''}
+                                                                        onChange={(e) => handleSpecificSymbolChange(initialItem.id, currentRhymeItem.id, e.target.value)}
+                                                                        className="symbol-input"
+                                                                        placeholder="Specific Symbol"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="initial-label">
+                                                            <input 
+                                                                type="text"
+                                                                value={displayInitial}
+                                                                onChange={(e) => handleInitialLabelChange(initialItem.id, e.target.value)}
+                                                                className="initial-ipa-input"
+                                                                placeholder="声母IPA/RAW"
+                                                            />
+                                                        </td>
+                                                        <td className="text-gray-800">
+                                                            <div className="cell-container">
+                                                                <button
+                                                                    onClick={() => addCellDataItem(cellKey)}
+                                                                    className="add-item-btn"
+                                                                >
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                                    </svg>
+                                                                    添加一项
+                                                                </button>
+
+                                                                {items.length > 0 ? (
+                                                                    <div className="space-y-1">
+                                                                        {items.map((item) => (
+                                                                            <div key={item.id} className="data-item-row">
+                                                                                <input 
+                                                                                    type="text"
+                                                                                    value={item.tone}
+                                                                                    onChange={(e) => updateCellDataItem(cellKey, item.id, 'tone', e.target.value)}
+                                                                                    className="tone-input"
+                                                                                    placeholder="调值/调类"
+                                                                                />
+                                                                                <input 
+                                                                                    type="text"
+                                                                                    value={item.characters || ''}
+                                                                                    onChange={(e) => updateCellDataItem(cellKey, item.id, 'characters', e.target.value)}
+                                                                                    className="character-input"
+                                                                                    placeholder="汉字"
+                                                                                />
+                                                                                <button
+                                                                                    onClick={() => removeCellDataItem(cellKey, item.id)}
+                                                                                    className="delete-item-btn"
+                                                                                    title="删除此项"
+                                                                                >
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                                                    </svg>
+                                                                                </button>
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                ) : (
+                                                                    <span className="text-gray-300 italic">—</span>
+                                                                )}
+                                                            </div>
+                                                        </td>
+                                                        <td className="text-gray-800">
+                                                            {items.length > 0 ? (
+                                                                <div className="space-y-1">
+                                                                    {items.map((item) => {
+                                                                        const combination = calculateCombination(initialItem, currentRhymeItem, item.tone);
+                                                                        return (
+                                                                            <span key={item.id} className="combination-text">
+                                                                                {combination || '—'}
+                                                                            </span>
+                                                                        );
+                                                                    })}
+                                                                </div>
+                                                            ) : (
+                                                                <span className="text-gray-300 italic">—</span>
+                                                            )}
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="h-full overflow-y-auto">
+                    <div className="p-4 md:p-8 font-sans text-gray-900 box-border flex flex-col gap-6 max-w-5xl mx-auto min-h-full">
+                        
+                        <div className="pb-2 border-b border-gray-300 shrink-0">
+                            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Document Name</label>
+                            <input 
+                                type="text" 
+                                value={docName}
+                                onChange={(e) => setDocName(e.target.value)}
+                                className="text-3xl font-extrabold text-gray-800 bg-transparent border-b-2 border-transparent hover:border-gray-300 focus:border-blue-500 outline-none w-full transition-all py-1 placeholder-gray-300"
+                                placeholder="输入标题..."
+                            />
+                        </div>
+
+                        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex flex-col min-h-[300px]">
+                            <div className="flex justify-between items-center mb-4 shrink-0">
+                                <div className="flex items-center gap-4">
+                                    <h3 className="text-lg font-bold text-gray-800 border-l-4 border-blue-500 pl-3">
+                                        富文本编辑 (Rich Text)
+                                    </h3>
+                                    
+                                    <div className="mode-switch">
+                                        <button
+                                            className={`mode-switch-option ${dataMode === '古音小镜' ? 'active' : ''}`}
+                                            onClick={() => setDataMode('古音小镜')}
+                                        >
+                                            古音小镜
+                                        </button>
+                                        <button
+                                            className={`mode-switch-option ${dataMode === '字音表' ? 'active' : ''}`}
+                                            onClick={() => setDataMode('字音表')}
+                                        >
+                                            字音表
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div className="flex items-center gap-3">
+                                    <div className="text-xs text-gray-400 font-mono bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
+                                        Length: {charCount}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="flex-1 relative border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-100 focus-within:border-blue-500 transition-all bg-white mb-4">
+                                <div
+                                    ref={editorRef}
+                                    contentEditable="true"
+                                    onInput={handleInput}
+                                    className="rich-editor w-full h-full p-4 outline-none text-base leading-relaxed text-gray-700 min-h-[200px]"
+                                    data-placeholder={dataMode === '古音小镜' ? "在此处粘贴包含表格的网页内容..." : "在此处粘贴CSV格式的字音表数据（格式：汉字,声母,韵母,声调）..."}
+                                    spellCheck="false"
+                                ></div>
+                            </div>
+
+                            <div className="flex justify-end">
+                                <button 
+                                    onClick={processHtml}
+                                    disabled={isProcessing}
+                                    className={`px-6 py-2 rounded-lg font-bold text-white shadow-md transition-all flex items-center gap-2
+                                        ${isProcessing ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg active:transform active:scale-95'}
+                                    `}
+                                >
+                                    {isProcessing ? (
+                                        <span>处理中...</span>
+                                    ) : (
+                                        <>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                            </svg>
+                                            提取数据 (Extract)
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex flex-col transition-all">
+                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4 shrink-0">
+                                <h3 className="text-lg font-bold text-gray-800 border-l-4 border-purple-500 pl-3">
+                                    数据提取结果 (Extraction Results)
+                                </h3>
+                                
+                                <div className="flex gap-3">
+                                    <button
+                                        onClick={enterOrganizer}
+                                        className="px-4 py-1.5 text-sm font-bold rounded-md transition-all flex items-center gap-1 bg-green-600 text-white hover:bg-green-700 shadow-md hover:shadow-lg"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                        </svg>
+                                        音系与拼音整理
+                                    </button>
+
+                                    <div className="flex bg-gray-100 p-1 rounded-lg">
+                                        <button 
+                                            onClick={() => setViewMode('A')}
+                                            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${viewMode === 'A' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                                        >
+                                            模式 A
+                                        </button>
+                                        <button 
+                                            onClick={() => setViewMode('B')}
+                                            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${viewMode === 'B' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                                        >
+                                            模式 B
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="relative border border-gray-300 rounded-lg overflow-hidden bg-gray-900 text-gray-300 shadow-inner">
+                                <div className="absolute top-0 left-0 right-0 h-8 bg-gray-800 border-b border-gray-700 flex items-center px-3 space-x-1.5 z-10">
+                                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                    <div className="ml-4 text-xs text-gray-500 font-mono">
+                                        {extractionResult ? extractionResult.stats : "Ready"}
+                                    </div>
+                                </div>
+                                
+                                <pre className="p-4 pt-12 w-full h-80 overflow-auto text-sm font-mono leading-relaxed whitespace-pre-wrap break-all">
+                                    {extractionResult ? (
+                                        viewMode === 'A' 
+                                            ? JSON.stringify(extractionResult.modeA, null, 2)
+                                            : JSON.stringify(extractionResult.modeB, null, 2)
+                                    ) : (
+                                        <div className="flex flex-col items-center justify-center h-full text-gray-600 gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+                                            </svg>
+                                            <span className="italic">{dataMode === '古音小镜' ? '请在上方粘贴表格并点击"提取数据"' : '请在上方粘贴CSV格式的字音表数据并点击"提取数据"'}</span>
+                                        </div>
+                                    )}
+                                </pre>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<RichEditor />);
+    </script>
+</body>
+</html>
