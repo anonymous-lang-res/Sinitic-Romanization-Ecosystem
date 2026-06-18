@@ -1,0 +1,315 @@
+{
+  "scheme_name": "ShanghaiWuRomZJ1_symbol",
+  "sheng_mu": [
+    {
+      "symbol": "b",
+      "note": "p"
+    },
+    {
+      "symbol": "p",
+      "note": "ph"
+    },
+    {
+      "symbol": "bb",
+      "note": "b"
+    },
+    {
+      "symbol": "m",
+      "note": "m"
+    },
+    {
+      "symbol": "f",
+      "note": "f"
+    },
+    {
+      "symbol": "v",
+      "note": "v"
+    },
+    {
+      "symbol": "d",
+      "note": "t"
+    },
+    {
+      "symbol": "t",
+      "note": "th"
+    },
+    {
+      "symbol": "dd",
+      "note": "d"
+    },
+    {
+      "symbol": "n",
+      "note": "n"
+    },
+    {
+      "symbol": "l",
+      "note": "l"
+    },
+    {
+      "symbol": "z",
+      "note": "ts"
+    },
+    {
+      "symbol": "c",
+      "note": "tsh"
+    },
+    {
+      "symbol": "s",
+      "note": "s"
+    },
+    {
+      "symbol": "ss",
+      "note": "z"
+    },
+    {
+      "symbol": "j",
+      "note": "tɕ"
+    },
+    {
+      "symbol": "q",
+      "note": "tɕh"
+    },
+    {
+      "symbol": "jj",
+      "note": "dʑ"
+    },
+    {
+      "symbol": "nj",
+      "note": "ȵ"
+    },
+    {
+      "symbol": "x",
+      "note": "ɕ"
+    },
+    {
+      "symbol": "xx",
+      "note": "ʑ"
+    },
+    {
+      "symbol": "g",
+      "note": "k"
+    },
+    {
+      "symbol": "k",
+      "note": "kh"
+    },
+    {
+      "symbol": "gg",
+      "note": "g"
+    },
+    {
+      "symbol": "ng",
+      "note": "ŋ"
+    },
+    {
+      "symbol": "h",
+      "note": "h"
+    },
+    {
+      "symbol": "hh",
+      "note": "ɦ"
+    },
+    {
+      "symbol": " /y/w",
+      "note": "Ø。與漢語拼音類似，零聲母音節中，i 前加 y 或將 i 改寫爲 y；u 前加 w 或將 u 改寫爲 w。 Ø. As in Pinyin, in zero-initial syllables, y is added before i or replaces i, while w is added before u or replaces u."
+    }
+  ],
+  "cheng_yin_jie_bi_yin": [
+    {
+      "symbol": "m",
+      "note": "m̩"
+    },
+    {
+      "symbol": "ng",
+      "note": "ŋ̩"
+    },
+    {
+      "symbol": "n",
+      "note": "n̩"
+    }
+  ],
+  "sheng_diao": [
+    {
+      "symbol": "1A|53",
+      "note": "陰平53"
+    },
+    {
+      "symbol": "3A|35",
+      "note": "陰去35"
+    },
+    {
+      "symbol": "3B|13",
+      "note": "陽去13"
+    },
+    {
+      "symbol": "4A|5",
+      "note": "陰入5"
+    },
+    {
+      "symbol": "4B|1",
+      "note": "陽入1"
+    }
+  ],
+  "yun_mu": [
+    {
+      "symbol": "i",
+      "note": "ɿ"
+    },
+    {
+      "symbol": "i",
+      "note": "i"
+    },
+    {
+      "symbol": "u",
+      "note": "u"
+    },
+    {
+      "symbol": "o",
+      "note": "o"
+    },
+    {
+      "symbol": "ao",
+      "note": "ɔ"
+    },
+    {
+      "symbol": "yu",
+      "note": "y"
+    },
+    {
+      "symbol": "a",
+      "note": "a"
+    },
+    {
+      "symbol": "eu",
+      "note": "ɤ"
+    },
+    {
+      "symbol": "ea",
+      "note": "e"
+    },
+    {
+      "symbol": "oe",
+      "note": "ø"
+    },
+    {
+      "symbol": "ang",
+      "note": "ã"
+    },
+    {
+      "symbol": "aong",
+      "note": "ɑ̃"
+    },
+    {
+      "symbol": "eng",
+      "note": "əŋ"
+    },
+    {
+      "symbol": "ing",
+      "note": "iŋ"
+    },
+    {
+      "symbol": "ong",
+      "note": "oŋ"
+    },
+    {
+      "symbol": "yun",
+      "note": "yn"
+    },
+    {
+      "symbol": "ah",
+      "note": "aʔ"
+    },
+    {
+      "symbol": "oh",
+      "note": "oʔ"
+    },
+    {
+      "symbol": "eh",
+      "note": "əʔ"
+    },
+    {
+      "symbol": "ieh",
+      "note": "iɪʔ"
+    },
+    {
+      "symbol": "yueh",
+      "note": "yɪʔ"
+    },
+    {
+      "symbol": "ia",
+      "note": "ia"
+    },
+    {
+      "symbol": "ua",
+      "note": "ua"
+    },
+    {
+      "symbol": "iao",
+      "note": "iɔ"
+    },
+    {
+      "symbol": "ieu",
+      "note": "iɤ"
+    },
+    {
+      "symbol": "uoe",
+      "note": "uø"
+    },
+    {
+      "symbol": "yuoe",
+      "note": "yø"
+    },
+    {
+      "symbol": "iang",
+      "note": "iã"
+    },
+    {
+      "symbol": "uang",
+      "note": "uã"
+    },
+    {
+      "symbol": "iaong",
+      "note": "iɑ̃"
+    },
+    {
+      "symbol": "uaong",
+      "note": "uɑ̃"
+    },
+    {
+      "symbol": "ueng",
+      "note": "uəŋ"
+    },
+    {
+      "symbol": "iong",
+      "note": "ioŋ"
+    },
+    {
+      "symbol": "iah",
+      "note": "iaʔ"
+    },
+    {
+      "symbol": "uah",
+      "note": "uaʔ"
+    },
+    {
+      "symbol": "ueh",
+      "note": "uəʔ"
+    },
+    {
+      "symbol": "er",
+      "note": "əl"
+    },
+    {
+      "symbol": "ioh",
+      "note": "ioʔ"
+    },
+    {
+      "symbol": "iea",
+      "note": "ie"
+    },
+    {
+      "symbol": "uea",
+      "note": "ue"
+    }
+  ]
+}
