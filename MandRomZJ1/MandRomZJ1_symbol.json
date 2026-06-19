@@ -1,0 +1,267 @@
+{
+  "scheme_name": "MandRomZJ1_symbol",
+  "sheng_mu": [
+    {
+      "symbol": "b",
+      "note": "維持拼音b Follows Pinyin b"
+    },
+    {
+      "symbol": "p",
+      "note": "維持拼音p Follows Pinyin p"
+    },
+    {
+      "symbol": "m",
+      "note": "維持拼音m Follows Pinyin m"
+    },
+    {
+      "symbol": "f",
+      "note": "維持拼音f Follows Pinyin f"
+    },
+    {
+      "symbol": "d",
+      "note": "維持拼音d Follows Pinyin d"
+    },
+    {
+      "symbol": "t",
+      "note": "維持拼音t Follows Pinyin t"
+    },
+    {
+      "symbol": "n",
+      "note": "維持拼音n Follows Pinyin n"
+    },
+    {
+      "symbol": "l",
+      "note": "維持拼音l Follows Pinyin l"
+    },
+    {
+      "symbol": "g",
+      "note": "維持拼音g Follows Pinyin g"
+    },
+    {
+      "symbol": "k",
+      "note": "維持拼音k Follows Pinyin k"
+    },
+    {
+      "symbol": "h",
+      "note": "維持拼音h Follows Pinyin h"
+    },
+    {
+      "symbol": "z",
+      "note": "維持拼音z Follows Pinyin z"
+    },
+    {
+      "symbol": "c",
+      "note": "維持拼音c Follows Pinyin c"
+    },
+    {
+      "symbol": "s",
+      "note": "維持拼音s Follows Pinyin s"
+    },
+    {
+      "symbol": "zh",
+      "note": "維持拼音zh Follows Pinyin zh"
+    },
+    {
+      "symbol": "ch",
+      "note": "維持拼音ch Follows Pinyin ch"
+    },
+    {
+      "symbol": "sh",
+      "note": "維持拼音sh Follows Pinyin sh"
+    },
+    {
+      "symbol": "j",
+      "note": "維持拼音j Follows Pinyin j"
+    },
+    {
+      "symbol": "q",
+      "note": "維持拼音q Follows Pinyin q"
+    },
+    {
+      "symbol": "x",
+      "note": "維持拼音x Follows Pinyin x"
+    },
+    {
+      "symbol": "r",
+      "note": "維持拼音r Follows Pinyin r"
+    },
+    {
+      "symbol": " /y/w",
+      "note": "零聲母 與拼音類似的加y或w規則 不過聲母yu之前不加y Zero initial, similar rule as Pinyin for adding y or w, but no y before final yu"
+    }
+  ],
+  "cheng_yin_jie_bi_yin": [
+    {
+      "symbol": "",
+      "note": ""
+    }
+  ],
+  "sheng_diao": [
+    {
+      "symbol": "1A|55",
+      "note": "陰平55"
+    },
+    {
+      "symbol": "1B|35",
+      "note": "陽平35"
+    },
+    {
+      "symbol": "2|214",
+      "note": "上聲214"
+    },
+    {
+      "symbol": "3|51",
+      "note": "去聲51"
+    }
+  ],
+  "yun_mu": [
+    {
+      "symbol": "a",
+      "note": "維持拼音a Follows Pinyin a"
+    },
+    {
+      "symbol": "o",
+      "note": "維持拼音o Follows Pinyin o"
+    },
+    {
+      "symbol": "e",
+      "note": "維持拼音e Follows Pinyin e"
+    },
+    {
+      "symbol": "i",
+      "note": "維持拼音i Follows Pinyin i"
+    },
+    {
+      "symbol": "u",
+      "note": "維持拼音u Follows Pinyin u"
+    },
+    {
+      "symbol": "yu",
+      "note": "對應拼音ü Changed from Pinyin ü"
+    },
+    {
+      "symbol": "ua",
+      "note": "維持拼音ua Follows Pinyin ua"
+    },
+    {
+      "symbol": "ia",
+      "note": "維持拼音ia Follows Pinyin ia"
+    },
+    {
+      "symbol": "uo",
+      "note": "維持拼音uo Follows Pinyin uo"
+    },
+    {
+      "symbol": "ie",
+      "note": "維持拼音ie Follows Pinyin ie"
+    },
+    {
+      "symbol": "yue",
+      "note": "對應拼音üe Changed from Pinyin üe"
+    },
+    {
+      "symbol": "ai",
+      "note": "維持拼音ai Follows Pinyin ai"
+    },
+    {
+      "symbol": "uai",
+      "note": "維持拼音uai Follows Pinyin uai"
+    },
+    {
+      "symbol": "au",
+      "note": "對應拼音ao Changed from Pinyin ao"
+    },
+    {
+      "symbol": "iau",
+      "note": "對應拼音iao Changed from Pinyin iao"
+    },
+    {
+      "symbol": "ou",
+      "note": "對應拼音ou Changed from Pinyin ou"
+    },
+    {
+      "symbol": "iou",
+      "note": "對應拼音iu Changed from Pinyin iu"
+    },
+    {
+      "symbol": "ei",
+      "note": "維持拼音ei Follows Pinyin ei"
+    },
+    {
+      "symbol": "uei",
+      "note": "對應拼音ui Changed from Pinyin ui"
+    },
+    {
+      "symbol": "er",
+      "note": "維持拼音er Follows Pinyin er"
+    },
+    {
+      "symbol": "an",
+      "note": "維持拼音an Follows Pinyin an"
+    },
+    {
+      "symbol": "ang",
+      "note": "維持拼音ang Follows Pinyin ang"
+    },
+    {
+      "symbol": "ung",
+      "note": "對應拼音ong Changed from Pinyin ong"
+    },
+    {
+      "symbol": "en",
+      "note": "維持拼音en Follows Pinyin en"
+    },
+    {
+      "symbol": "eng",
+      "note": "維持拼音eng Follows Pinyin eng"
+    },
+    {
+      "symbol": "in",
+      "note": "維持拼音in Follows Pinyin in"
+    },
+    {
+      "symbol": "ing",
+      "note": "維持拼音ing Follows Pinyin ing"
+    },
+    {
+      "symbol": "yung",
+      "note": "對應拼音iong Changed from Pinyin iong"
+    },
+    {
+      "symbol": "yun",
+      "note": "對應拼音ün Changed from Pinyin ün"
+    },
+    {
+      "symbol": "ian",
+      "note": "維持拼音ian Follows Pinyin ian"
+    },
+    {
+      "symbol": "uan",
+      "note": "維持拼音uan Follows Pinyin uan"
+    },
+    {
+      "symbol": "yuan",
+      "note": "對應拼音üan Changed from Pinyin üan"
+    },
+    {
+      "symbol": "uang",
+      "note": "維持拼音uang Follows Pinyin uang"
+    },
+    {
+      "symbol": "iang",
+      "note": "維持拼音iang Follows Pinyin iang"
+    },
+    {
+      "symbol": "uen",
+      "note": "對應拼音un Changed from Pinyin un"
+    },
+    {
+      "symbol": "ueng",
+      "note": "維持拼音ueng，從不以ueng單獨出現，只在零聲母以weng出現 Follows Pinyin ueng, Never appear as ueng, only in zero-initial as weng"
+    },
+    {
+      "symbol": "iai",
+      "note": "可擴展至iai Can be extended to iai, for Taiwan Mandarin syllables like 崖"
+    }
+  ]
+}
