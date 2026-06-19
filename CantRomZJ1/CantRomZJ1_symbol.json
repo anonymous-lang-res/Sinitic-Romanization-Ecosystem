@@ -1,0 +1,211 @@
+{
+  "scheme_name": "CantRomZJ1_symbol",
+  "sheng_mu": [
+    {
+      "symbol": "b",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "p",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "m",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "f",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "d",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "t",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "n",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "l",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "z",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "c",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "s",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "g",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "k",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "gw",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "kw",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "ng",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "h",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "j",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "w",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "",
+      "note": "零聲母 Zero initial"
+    }
+  ],
+  "cheng_yin_jie_bi_yin": [
+    {
+      "symbol": "m",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "ng",
+      "note": "維持粵拼 Follows Jyutping"
+    }
+  ],
+  "sheng_diao": [
+    {
+      "symbol": "1A",
+      "note": "陰平，對應粵拼的1 Changed from Jyutping 1"
+    },
+    {
+      "symbol": "1B",
+      "note": "陽平，對應粵拼的4 Changed from Jyutping 4"
+    },
+    {
+      "symbol": "2A",
+      "note": "陰上，對應粵拼的2 Changed from Jyutping 2"
+    },
+    {
+      "symbol": "2B",
+      "note": "陽上，對應粵拼的5 Changed from Jyutping 5"
+    },
+    {
+      "symbol": "3A",
+      "note": "陰去，對應粵拼的3 Changed from Jyutping 3"
+    },
+    {
+      "symbol": "3B",
+      "note": "陽去，對應粵拼的6 Changed from Jyutping 6"
+    },
+    {
+      "symbol": "4Aa",
+      "note": "上陰入，對應粵拼的1 Changed from Jyutping 1"
+    },
+    {
+      "symbol": "4Ab",
+      "note": "下陰入，對應粵拼的3 Changed from Jyutping 3"
+    },
+    {
+      "symbol": "4B",
+      "note": "陽入，對應粵拼的6 Changed from Jyutping 6"
+    }
+  ],
+  "yun_tou": [
+    {
+      "symbol": "",
+      "note": "無韻頭 同粵拼 No medial, follows Jyutping"
+    }
+  ],
+  "yun_fu": [
+    {
+      "symbol": "a",
+      "note": "對應粵拼的aa Changed from Jyutping aa"
+    },
+    {
+      "symbol": "e",
+      "note": "對應粵拼的a Changed from Jyutping a"
+    },
+    {
+      "symbol": "ea",
+      "note": "對應粵拼的e Changed from Jyutping e"
+    },
+    {
+      "symbol": "eo",
+      "note": "對應粵拼的oe Changed from Jyutping oe"
+    },
+    {
+      "symbol": "oe",
+      "note": "對應粵拼的eo Changed from Jyutping eo"
+    },
+    {
+      "symbol": "o",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "i",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "u",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "yu",
+      "note": "維持粵拼 Follows Jyutping"
+    }
+  ],
+  "yun_wei": [
+    {
+      "symbol": "m",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "n",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "ng",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "p",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "t",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "k",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "i",
+      "note": "維持粵拼 Follows Jyutping"
+    },
+    {
+      "symbol": "u",
+      "note": "維持粵拼 Follows Jyutping"
+    }
+  ]
+}
