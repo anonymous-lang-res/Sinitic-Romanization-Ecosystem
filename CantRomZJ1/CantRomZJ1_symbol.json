@@ -94,40 +94,40 @@
   ],
   "sheng_diao": [
     {
-      "symbol": "1A",
-      "note": "陰平，對應粵拼的1 Changed from Jyutping 1"
+      "symbol": "1A|55",
+      "note": " Changed from Jyutping 1 陰平，對應粵拼的1"
     },
     {
-      "symbol": "1B",
-      "note": "陽平，對應粵拼的4 Changed from Jyutping 4"
+      "symbol": "1B|21",
+      "note": "Changed from Jyutping 4 陽平，對應粵拼的4"
     },
     {
-      "symbol": "2A",
-      "note": "陰上，對應粵拼的2 Changed from Jyutping 2"
+      "symbol": "2A|35",
+      "note": "Changed from Jyutping 2 陰上，對應粵拼的2"
     },
     {
-      "symbol": "2B",
-      "note": "陽上，對應粵拼的5 Changed from Jyutping 5"
+      "symbol": "2B|13",
+      "note": "Changed from Jyutping 5 陽上，對應粵拼的5"
     },
     {
-      "symbol": "3A",
-      "note": "陰去，對應粵拼的3 Changed from Jyutping 3"
+      "symbol": "3A|33",
+      "note": "Changed from Jyutping 3 陰去，對應粵拼的3"
     },
     {
-      "symbol": "3B",
-      "note": "陽去，對應粵拼的6 Changed from Jyutping 6"
+      "symbol": "3B|22",
+      "note": "Changed from Jyutping 6 陽去，對應粵拼的6"
     },
     {
-      "symbol": "4Aa",
-      "note": "上陰入，對應粵拼的1 Changed from Jyutping 1"
+      "symbol": "4Aa|5",
+      "note": "Changed from Jyutping 1 上陰入，對應粵拼的1"
     },
     {
-      "symbol": "4Ab",
-      "note": "下陰入，對應粵拼的3 Changed from Jyutping 3"
+      "symbol": "4Ab|3",
+      "note": " Changed from Jyutping 3 下陰入，對應粵拼的3"
     },
     {
-      "symbol": "4B",
-      "note": "陽入，對應粵拼的6 Changed from Jyutping 6"
+      "symbol": "4B|2",
+      "note": "Changed from Jyutping 6 陽入，對應粵拼的6"
     }
   ],
   "yun_tou": [
@@ -139,23 +139,23 @@
   "yun_fu": [
     {
       "symbol": "a",
-      "note": "對應粵拼的aa Changed from Jyutping aa"
+      "note": "Changed from Jyutping aa 對應粵拼的aa"
     },
     {
       "symbol": "e",
-      "note": "對應粵拼的a Changed from Jyutping a"
+      "note": " Changed from Jyutping a 對應粵拼的a"
     },
     {
       "symbol": "ea",
-      "note": "對應粵拼的e Changed from Jyutping e"
+      "note": "Changed from Jyutping e 對應粵拼的e"
     },
     {
       "symbol": "eo",
-      "note": "對應粵拼的oe Changed from Jyutping oe"
+      "note": "Changed from Jyutping oe 對應粵拼的oe"
     },
     {
       "symbol": "oe",
-      "note": "對應粵拼的eo Changed from Jyutping eo"
+      "note": "Changed from Jyutping eo 對應粵拼的eo"
     },
     {
       "symbol": "o",
