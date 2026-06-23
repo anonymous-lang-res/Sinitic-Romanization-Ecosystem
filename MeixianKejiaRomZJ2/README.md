@@ -1,0 +1,1 @@
+> **Important:** The `MeixianKejiaRomZJ2_symbol.json` file should be imported into PhonSymbol using the **medial–nucleus–coda (M–N–C, 頭腹尾) mode**. Using the **Final mode** can result in incomplete import and display of the scheme. In future versions, we will add a warning when an incompatible mode is selected.
