@@ -1,0 +1,1 @@
+> **Important:** The `NanjingRomZJ1_symbol.json` file should be imported into PhonSymbol using the **Final mode**. Using the **medial–nucleus–coda (M–N–C, 頭腹尾) mode** can result in incomplete import and display of the scheme. In future versions, we will add a warning when an incompatible mode is selected.
