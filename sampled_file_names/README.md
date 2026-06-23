@@ -13,4 +13,4 @@ val  [wav_file_z].wav
 ...
 
 
-**There is a blank line between the Cantonese part and the Mandarin part**
+**There is a blank line between the Cantonese part and the Mandarin part.**
