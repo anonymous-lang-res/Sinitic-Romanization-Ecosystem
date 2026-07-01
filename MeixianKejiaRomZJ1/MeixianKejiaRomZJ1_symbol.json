@@ -1,0 +1,191 @@
+{
+  "scheme_name": "MeixianKejiaRomZJ1_symbol",
+  "sheng_mu": [
+    {
+      "symbol": "b",
+      "note": "p"
+    },
+    {
+      "symbol": "p",
+      "note": "ph"
+    },
+    {
+      "symbol": "m",
+      "note": "m"
+    },
+    {
+      "symbol": "f",
+      "note": "f"
+    },
+    {
+      "symbol": "v",
+      "note": "v"
+    },
+    {
+      "symbol": "d",
+      "note": "t"
+    },
+    {
+      "symbol": "t",
+      "note": "th"
+    },
+    {
+      "symbol": "n",
+      "note": "n"
+    },
+    {
+      "symbol": "l",
+      "note": "l"
+    },
+    {
+      "symbol": "z",
+      "note": "ts"
+    },
+    {
+      "symbol": "c",
+      "note": "tsh"
+    },
+    {
+      "symbol": "s",
+      "note": "s"
+    },
+    {
+      "symbol": "g",
+      "note": "k"
+    },
+    {
+      "symbol": "k",
+      "note": "kh"
+    },
+    {
+      "symbol": "ng",
+      "note": "ŋ"
+    },
+    {
+      "symbol": "h",
+      "note": "h"
+    },
+    {
+      "symbol": " /y/w",
+      "note": "Ø。與漢語拼音類似，零聲母音節中，i 前加 y 或將 i 改寫爲 y；u 前加 w 或將 u 改寫爲 w。 Ø. As in Pinyin, in zero-initial syllables, y is added before i or replaces i, while w is added before u or replaces u."
+    }
+  ],
+  "cheng_yin_jie_bi_yin": [
+    {
+      "symbol": "m",
+      "note": "m̩"
+    },
+    {
+      "symbol": "n",
+      "note": "n̩"
+    }
+  ],
+  "sheng_diao": [
+    {
+      "symbol": "1A|44",
+      "note": "陰平44"
+    },
+    {
+      "symbol": "1B|11",
+      "note": "陽平11"
+    },
+    {
+      "symbol": "2|31",
+      "note": "上聲31"
+    },
+    {
+      "symbol": "3|53",
+      "note": "去聲53"
+    },
+    {
+      "symbol": "4A|1",
+      "note": "陰入1"
+    },
+    {
+      "symbol": "4B|5",
+      "note": "陽入5"
+    }
+  ],
+  "yun_tou": [
+    {
+      "symbol": "i",
+      "note": "i"
+    },
+    {
+      "symbol": "u",
+      "note": "u"
+    },
+    {
+      "symbol": "",
+      "note": "開口呼，無介音標記。 Open-mouth (kaikou Hu); no medial symbol is used."
+    }
+  ],
+  "yun_fu": [
+    {
+      "symbol": "a",
+      "note": "a"
+    },
+    {
+      "symbol": "e",
+      "note": "ə"
+    },
+    {
+      "symbol": "i",
+      "note": "i"
+    },
+    {
+      "symbol": "o",
+      "note": "o"
+    },
+    {
+      "symbol": "u",
+      "note": "u"
+    },
+    {
+      "symbol": "ea",
+      "note": "e"
+    },
+    {
+      "symbol": "ii",
+      "note": "ɿ"
+    }
+  ],
+  "yun_wei": [
+    {
+      "symbol": "i",
+      "note": "-i"
+    },
+    {
+      "symbol": "u",
+      "note": "-u"
+    },
+    {
+      "symbol": "m",
+      "note": "-m"
+    },
+    {
+      "symbol": "n",
+      "note": "-n"
+    },
+    {
+      "symbol": "ng",
+      "note": "-ŋ"
+    },
+    {
+      "symbol": "p",
+      "note": "-p"
+    },
+    {
+      "symbol": "t",
+      "note": "-t"
+    },
+    {
+      "symbol": "k",
+      "note": "-k"
+    },
+    {
+      "symbol": "",
+      "note": "零韻尾（-∅），不標記韻尾。 Zero coda (-∅); no coda symbol is used."
+    }
+  ]
+}
